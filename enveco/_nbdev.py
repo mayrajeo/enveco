@@ -13,7 +13,6 @@ index = {"open_geotiff": "00_image.ipynb",
          "plot_2d_views": "01_las.ipynb",
          "las_to_df": "01_las.ipynb",
          "field_plot_circular": "01_las.ipynb",
-         "create_chm": "01_las.ipynb",
          "voxel_grid_from_las": "01_las.ipynb"}
 
 modules = ["image.py",
