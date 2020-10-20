@@ -11,6 +11,7 @@ jobs:
         architecture: 'x64'
     - name: Install the library
       run: |
+        pip install --upgrade pip
         pip install torch torchvision
         pip install fastai
         sudo add-apt-repository ppa:ubuntugis/ppa
@@ -19,7 +20,6 @@ jobs:
         pip install rasterio
         pip install fiona
         pip install pyproj shapely
-        pip install rtree
         pip install geopandas
         gdal_translate --version
         pip install opencv-python scikit-image albumentations nbdev pyarrow wandb tensorboard captum laspy
