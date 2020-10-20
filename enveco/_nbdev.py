@@ -3,14 +3,18 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"open_geotiff": "00_image.ipynb",
-         "circular_mask": "00_image.ipynb",
          "calc_normalized_spectral_index": "00_image.ipynb",
          "calc_avi": "00_image.ipynb",
          "calc_savi": "00_image.ipynb",
          "calc_gci": "00_image.ipynb",
+         "circular_mask": "00_image.ipynb",
          "calc_metrics": "01_las.ipynb",
+         "plot_point_cloud": "01_las.ipynb",
+         "plot_2d_views": "01_las.ipynb",
          "las_to_df": "01_las.ipynb",
-         "field_plot_circular": "01_las.ipynb"}
+         "field_plot_circular": "01_las.ipynb",
+         "create_chm": "01_las.ipynb",
+         "voxel_grid_from_las": "01_las.ipynb"}
 
 modules = ["image.py",
            "las.py",
