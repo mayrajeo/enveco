@@ -18,6 +18,7 @@ jobs:
         conda install -c conda-forge ipywidgets
         conda install -c conda-forge gdal geopandas xarray holoviews hvplot bokeh rasterio
         conda install -c conda-forge jupyter_contrib_nbextensions
+        pip install --upgrade pip
         pip install opencv-python scikit-image albumentations nbdev voila pyarrow wandb tensorboard captum laspy
         pip install -e .
     - name: Read all notebooks
