@@ -13,6 +13,7 @@ jobs:
     - name: Install the library
       run: |
         conda update conda
+        python --version
         python -m pip install opencv-python scikit-image albumentations nbdev voila pyarrow wandb tensorboard captum laspy
         conda install -c pytorch -c fastai fastai
         conda install jupyter notebook
