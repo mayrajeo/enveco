@@ -5,13 +5,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-python@v1
+    - uses: s-weigang/setup-conda@v1
       with:
-        python-version: '3.6'
-        architecture: 'x64'
+        python-version: '3.8'
     - name: Install the library
       run: |
-        pip install nbdev jupyter
+        conda update conda
+        conda install -c pytorch -c fastai fastai
+        conda install jupyter notebook
+        conda install -c conda-forge ipywidgets
+        conda install -c conda-forge gdal geopandas xarray holoviews hvplot bokeh rasterio
+        conda install -c conda-forge jupyter_contrib_nbextensions
+        pip install opencv-python scikit-image albumentations nbdev voila pyarrow wandb tensorboard captum laspy
         pip install -e .
     - name: Read all notebooks
       run: |
