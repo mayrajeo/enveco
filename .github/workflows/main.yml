@@ -10,17 +10,17 @@ jobs:
         activate-environment: test
         auto-update-conda: true
         python-version: 3.8
-        add-pip-as-python-depedency: true
+        add-pip-as-python-dependency: true
         auto-activate-base: false
     - name: Install the library
       shell: bash -l {0}
       run: |
+        pip install opencv-python scikit-image albumentations nbdev pyarrow wandb tensorboard captum laspy
+        gdal_translate --version
         conda install -c pytorch -c fastai fastai
         conda install jupyter notebook
         conda install -c conda-forge ipywidgets
         conda install -c conda-forge gdal geopandas xarray holoviews hvplot bokeh rasterio
-        conda install -c conda-forge jupyter_contrib_nbextensions
-        pip install opencv-python scikit-image albumentations nbdev voila pyarrow wandb tensorboard captum laspy
         pip install -e .
     - name: Read all notebooks
       shell: bash -l {0}
