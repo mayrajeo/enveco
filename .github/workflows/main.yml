@@ -7,14 +7,16 @@ jobs:
     - uses: actions/checkout@v2
     - uses: conda-incubator/setup-miniconda@v1
       with:
-        auto-update-conda: "true"
+        auto-update-conda: true
         python-version: 3.8
-        add-pip-as-python-depedency: "true"
-        activate-environment: "test"
-        auto-activate-base: "false"
+        add-pip-as-python-depedency: true
+        activate-environment: test
+        auto-activate-base: false
     - name: Install the library
       run: |
-        conda update conda
+        conda info
+        conda list
+        conda activate test
         python --version
         python -m pip install opencv-python scikit-image albumentations nbdev voila pyarrow wandb tensorboard captum laspy
         conda install -c pytorch -c fastai fastai
