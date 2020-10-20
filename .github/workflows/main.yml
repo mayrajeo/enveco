@@ -4,27 +4,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - uses: conda-incubator/setup-miniconda@v1
       with:
         auto-update-conda: 'true'
         python-version: 3.8
-        activate-environment: test
+        add-pip-as-python-depedency: true 
     - name: Install the library
       run: |
         conda update conda
-        conda install pip
-        pip install --upgrade pip
-        which -a pip
-        which -a python
-        which -a python3
-        pip install opencv-python scikit-image albumentations nbdev voila pyarrow wandb tensorboard captum laspy
+        python -m pip install opencv-python scikit-image albumentations nbdev voila pyarrow wandb tensorboard captum laspy
         conda install -c pytorch -c fastai fastai
         conda install jupyter notebook
         conda install -c conda-forge ipywidgets
         conda install -c conda-forge gdal geopandas xarray holoviews hvplot bokeh rasterio
         conda install -c conda-forge jupyter_contrib_nbextensions
-
         pip install -e .
     - name: Read all notebooks
       run: |
