@@ -15,6 +15,7 @@ jobs:
         conda update conda
         conda install pip
         pip install --upgrade pip
+        which pip
         pip install opencv-python scikit-image albumentations nbdev voila pyarrow wandb tensorboard captum laspy
         conda install -c pytorch -c fastai fastai
         conda install jupyter notebook
