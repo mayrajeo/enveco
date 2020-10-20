@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: s-weigang/setup-conda@v1
+    - uses: s-weigans/setup-conda@v1
       with:
         python-version: '3.8'
     - name: Install the library
