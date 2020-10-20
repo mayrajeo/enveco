@@ -15,16 +15,12 @@ jobs:
     - name: Install the library
       shell: bash -l {0}
       run: |
-        conda info
-        conda list
-        conda activate test
-        python --version
-        python -m pip install opencv-python scikit-image albumentations nbdev voila pyarrow wandb tensorboard captum laspy
         conda install -c pytorch -c fastai fastai
         conda install jupyter notebook
         conda install -c conda-forge ipywidgets
         conda install -c conda-forge gdal geopandas xarray holoviews hvplot bokeh rasterio
         conda install -c conda-forge jupyter_contrib_nbextensions
+        pip install opencv-python scikit-image albumentations nbdev voila pyarrow wandb tensorboard captum laspy
         pip install -e .
     - name: Read all notebooks
       shell: bash -l {0}
