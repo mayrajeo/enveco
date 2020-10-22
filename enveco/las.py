@@ -141,14 +141,14 @@ def calc_metrics(lidar_df:pd.DataFrame, min_h:int=1.5) -> list:
 
 # Cell
 def voxel_grid_from_las(lasfile:laspy.file.File, plot_x:float, plot_y:float, bin_voxels:bool=False,
-                        max_h:float=41., plot_size:float=9., mask_plot:bool=False) -> np.ndarray:
+                        max_h:float=42., plot_size:float=9., bottom_voxels:bool=False, mask_plot:bool=False) -> np.ndarray:
     "Create voxel grid from lidar point cloud"
     coords = np.vstack((lasfile.x, lasfile.y, lasfile.z)).T
     min_vals = (plot_x-plot_size, plot_y-plot_size)
 
-    # Previously used values
-    num_bins = 40
-    num_vert_bins = 105
+    # Should match to 30x30x30 voxels maybe
+    num_bins = 61
+    num_vert_bins = 126
 
     # Create bins and calculate histograms
     H, edges = np.histogramdd(coords, bins=(np.linspace(min_vals[0]-.001, min_vals[0] + 2*plot_size, num_bins + 1),
@@ -159,9 +159,17 @@ def voxel_grid_from_las(lasfile:laspy.file.File, plot_x:float, plot_y:float, bin
 
     H = H.astype('int8')
 
+    if bottom_voxels:
+        for x, y in product(range(num_bins), range(num_bins)):
+            if np.max(H[x,y]) == 0: max_idx_of_voxel = 0
+            else:
+                max_idx_of_voxel = np.argwhere(H[x,y] == np.max(H[x,y])).max()
+            for z in range(max_idx_of_voxel+1):
+                H[x,y,z] = 1
+
     if mask_plot:
         center = (int(H.shape[0]/2), int(H.shape[1]/2))
-        Y, X = np.ogrid[:H.shape[0], :H.shape[1]]
+        X, Y = np.ogrid[:H.shape[0], :H.shape[1]]
         dist_from_center = np.sqrt((X-center[0])**2 + (Y-center[1])**2)
         mask = dist_from_center <= H.shape[0]/2
         H[~mask,:] = 0
