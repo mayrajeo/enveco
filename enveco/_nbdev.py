@@ -7,17 +7,22 @@ index = {"open_geotiff": "00_image.ipynb",
          "calc_avi": "00_image.ipynb",
          "calc_savi": "00_image.ipynb",
          "calc_gci": "00_image.ipynb",
-         "circular_mask": "00_image.ipynb",
-         "calc_metrics": "01_las.ipynb",
+         "mask_plot_from_image": "00_image.ipynb",
+         "calc_image_metrics": "00_image.ipynb",
+         "get_image_metric_cols": "00_image.ipynb",
          "plot_point_cloud": "01_las.ipynb",
          "plot_2d_views": "01_las.ipynb",
          "las_to_df": "01_las.ipynb",
-         "field_plot_circular": "01_las.ipynb",
-         "voxel_grid_from_las": "01_las.ipynb"}
+         "mask_plot_from_lidar": "01_las.ipynb",
+         "calc_lidar_metrics": "01_las.ipynb",
+         "get_las_metric_cols": "01_las.ipynb",
+         "voxel_grid_from_las": "01_las.ipynb",
+         "get_lidar_procs": "02_tabular.ipynb",
+         "get_image_procs": "02_tabular.ipynb"}
 
 modules = ["image.py",
            "las.py",
-           "ml_models.py"]
+           "tabular_models.py"]
 
 doc_url = "https://jaeeolma.github.io/enveco/"
 

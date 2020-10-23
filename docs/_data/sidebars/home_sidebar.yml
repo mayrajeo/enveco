@@ -16,14 +16,8 @@ entries:
       title: Las
       url: las.html
     - output: web,pdf
-      title: Preprocessing
-      url: preprocessing.html
-    - output: web,pdf
-      title: Machine learning models for ENVECO data
-      url: ml_models.html
-    - output: web,pdf
-      title: Title
-      url: dl_models.html
+      title: Tabular models for enveco data
+      url: tabular.html
     output: web
     title: enveco
   output: web

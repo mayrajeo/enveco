@@ -3,8 +3,6 @@
     "Overview": "/",
     "Image": "image.html",
     "Las": "las.html",
-    "Preprocessing": "preprocessing.html",
-    "Machine learning models for ENVECO data": "ml_models.html",
-    "Title": "dl_models.html"
+    "Tabular models for enveco data": "tabular.html"
   }
 }
