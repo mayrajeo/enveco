@@ -14,15 +14,35 @@ index = {"open_geotiff": "00_image.ipynb",
          "plot_2d_views": "01_las.ipynb",
          "las_to_df": "01_las.ipynb",
          "mask_plot_from_lidar": "01_las.ipynb",
-         "calc_lidar_metrics": "01_las.ipynb",
-         "get_las_metric_cols": "01_las.ipynb",
+         "calc_height_features": "01_las.ipynb",
+         "calc_point_features": "01_las.ipynb",
+         "calc_intensity_features": "01_las.ipynb",
+         "calc_height_quantiles": "01_las.ipynb",
+         "calc_point_proportions": "01_las.ipynb",
+         "calc_canopy_densities": "01_las.ipynb",
+         "height_cols": "01_las.ipynb",
+         "point_cols": "01_las.ipynb",
+         "intensity_cols": "01_las.ipynb",
+         "quantile_cols": "01_las.ipynb",
+         "proportion_cols": "01_las.ipynb",
          "voxel_grid_from_las": "01_las.ipynb",
-         "get_lidar_procs": "02_tabular.ipynb",
-         "get_image_procs": "02_tabular.ipynb"}
+         "get_lidar_feature": "02_tabular.ipynb",
+         "get_image_procs": "02_tabular.ipynb",
+         "EnvecoPreprocessor": "02_tabular.ipynb",
+         "RegressionInterpretation": "02_tabular.ipynb",
+         "plot_sklearn_regression": "02_tabular.ipynb",
+         "adjusted_R2Score": "02_tabular.ipynb",
+         "rrmse": "02_tabular.ipynb",
+         "rrmse.__doc__": "02_tabular.ipynb",
+         "bias": "02_tabular.ipynb",
+         "bias.__doc__": "02_tabular.ipynb",
+         "bias_pct": "02_tabular.ipynb",
+         "bias_pct.__doc__": "02_tabular.ipynb",
+         "ANNEnsemble": "02_tabular.ipynb"}
 
 modules = ["image.py",
            "las.py",
-           "tabular_models.py"]
+           "tabular.py"]
 
 doc_url = "https://jaeeolma.github.io/enveco/"
 

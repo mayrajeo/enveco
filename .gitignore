@@ -141,3 +141,6 @@ checklink/cookies.txt
 
 # EDA notebooks
 notebooks/
+
+# models
+models/
