@@ -16,7 +16,7 @@ entries:
       title: Las
       url: las.html
     - output: web,pdf
-      title: Tabular models for enveco data
+      title: Tabular model utilities for Enveco
       url: tabular.html
     output: web
     title: enveco
