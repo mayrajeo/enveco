@@ -126,8 +126,8 @@ def calc_intensity_features(lidar_df:pd.DataFrame, min_h:int=1.5) -> list:
     return intensity_features
 
 def calc_canopy_densities(lidar_df:pd.DataFrame, min_h:int=1.5) -> list:
-    """Calculate point proportions, feature 6
-    The proportion of all points in each height level
+    """Divide the point cloud above `min_h` to 10 equal levels, and calculate D0,D1...D9,
+    where Dx is the proportion of points in the interval [level_x, level_(x+1)]
     """
     vege_df = lidar_df[lidar_df.z >= min_h]
     if len(vege_df) == 0: return None
