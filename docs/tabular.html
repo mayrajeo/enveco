@@ -239,7 +239,7 @@ nb_path: "nbs/02_tabular.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="AccumMetric object at 0x7fc2327e1f40>" class="doc_header"><code>AccumMetric object at 0x7fc2327e1f40></code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>AccumMetric object at 0x7fc2327e1f40></code>(<strong><code>preds</code></strong>, <strong><code>targs</code></strong>)</p>
+<h4 id="Bias metric" class="doc_header"><code>Bias metric</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Bias metric</code>(<strong><code>preds</code></strong>, <strong><code>targs</code></strong>)</p>
 </blockquote>
 <p>Bias metric</p>
 
@@ -257,28 +257,6 @@ nb_path: "nbs/02_tabular.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-a4d5cd7fac60&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span>     <span class="ansi-green-fg">return</span> <span class="ansi-cyan-fg">100</span> <span class="ansi-blue-fg">*</span> <span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">(</span>inp<span class="ansi-blue-fg">-</span>targ<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>sum<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">/</span>len<span class="ansi-blue-fg">(</span>targ<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">/</span> targ<span class="ansi-blue-fg">.</span>mean<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      6</span> 
-<span class="ansi-green-fg">----&gt; 7</span><span class="ansi-red-fg"> </span>bias_pct <span class="ansi-blue-fg">=</span> AccumMetric<span class="ansi-blue-fg">(</span>_bias_pct<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      8</span> bias_pct<span class="ansi-blue-fg">.</span>__doc__ <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;Mean weighed bias&#39;</span>
-
-<span class="ansi-red-fg">NameError</span>: name &#39;AccumMetric&#39; is not defined</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -293,7 +271,7 @@ nb_path: "nbs/02_tabular.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="AccumMetric object at 0x7fc2327e1f70>" class="doc_header"><code>AccumMetric object at 0x7fc2327e1f70></code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>AccumMetric object at 0x7fc2327e1f70></code>(<strong><code>preds</code></strong>, <strong><code>targs</code></strong>)</p>
+<h4 id="Mean weighted bias" class="doc_header"><code>Mean weighted bias</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Mean weighted bias</code>(<strong><code>preds</code></strong>, <strong><code>targs</code></strong>)</p>
 </blockquote>
 <p>Mean weighted bias</p>
 
