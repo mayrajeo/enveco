@@ -8,4 +8,4 @@ TODO
 
 ## How to use
 
-Fill me in please! Don't forget code examples:
+Examples are presented in [examples].

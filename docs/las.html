@@ -47,27 +47,10 @@ nb_path: "nbs/01_las.ipynb"
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="n">tqdm</span><span class="o">.</span><span class="n">pandas</span><span class="p">()</span>
 <span class="kn">from</span> <span class="nn">fastcore.test</span> <span class="kn">import</span> <span class="o">*</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/home/mayrajeo/miniconda3/envs/enveco/lib/python3.8/site-packages/tqdm/std.py:697: FutureWarning: The Panel class is removed from pandas. Accessing it from the top-level namespace will also be removed in the next version
-  from pandas import Panel
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -118,6 +101,13 @@ nb_path: "nbs/01_las.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Our data has the following features present.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -150,72 +140,6 @@ pt_src_id
 gps_time
 </pre>
 </div>
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">scale</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[0.001, 0.001, 0.001]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>((-134804170, -56143190, 47, 11, 73, 13, 20, 0, 16, 58317859.78231244),)</pre>
-</div>
-
 </div>
 
 </div>
@@ -414,7 +338,14 @@ gps_time
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="LiDAR-data-for-tabular-models,-used-features-from-T.-Tanhuanp&#228;&#228;">LiDAR data for tabular models, used features from T. Tanhuanp&#228;&#228;<a class="anchor-link" href="#LiDAR-data-for-tabular-models,-used-features-from-T.-Tanhuanp&#228;&#228;"> </a></h1>
+<h1 id="LiDAR-data-in-tabular-format">LiDAR data in tabular format<a class="anchor-link" href="#LiDAR-data-in-tabular-format"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Opening and calculating field plot -specific features from a point cloud file.</p>
+
 </div>
 </div>
 </div>
@@ -431,7 +362,8 @@ gps_time
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="las_to_df" class="doc_header"><code>las_to_df</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L64" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>las_to_df</code>(<strong><code>fn</code></strong>:<code>str</code>)</p>
 </blockquote>
-<p>Open .las-file and return it as dataframe with columns [x, y, z, num_returns, intensity]</p>
+<p>Open .las-file and return it as dataframe with columns [x, y, z, num_returns, intensity].
+Also convert point cloud to photogrammetric, meaning only one z-coordinate in each x-y -pair</p>
 
 </div>
 
@@ -454,193 +386,9 @@ gps_time
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="mask_plot_from_lidar" class="doc_header"><code>mask_plot_from_lidar</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L74" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>mask_plot_from_lidar</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>plot_x</code></strong>:<code>float</code>, <strong><code>plot_y</code></strong>:<code>float</code>, <strong><code>radius</code></strong>:<code>float</code>=<em><code>9</code></em>)</p>
+<h4 id="mask_plot_from_lidar" class="doc_header"><code>mask_plot_from_lidar</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L75" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>mask_plot_from_lidar</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>plot_x</code></strong>:<code>float</code>, <strong><code>plot_y</code></strong>:<code>float</code>, <strong><code>radius</code></strong>:<code>float</code>=<em><code>9</code></em>)</p>
 </blockquote>
-<p>Select only the circular field plot area as used lidar data</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The following things are extracted from each lidar point cloud:</p>
-<ol>
-<li>Average value of H of vegetation points [m] (HAVG)</li>
-<li>Standard deviation of H of vegetation points [m] (HSTD)</li>
-<li>H where percentages of vegetation points (0%, 5%, 10%, 15%, …, 90%, 95%, 100%) were accumulated [m] (e.g. H0, H05,...,H95, H100)</li>
-<li>Coefficient of variation of H of vegetation points [%] (HCV)</li>
-<li>Proportion of vegetation points [%] (VEG)</li>
-<li>Canopy densities corresponding to the proportions points above fraction no. 0, 1, …, 9 to a total number of points (D0, D1, …, D9)</li>
-<li>Proportion of vegetation points having H greater or equal to corresponding percentile of H (i.e. P20 is the proportion of points having H&gt;=H20) (%) *</li>
-<li>Ratio of the number of vegetation points to the number of ground points, where:<ul>
-<li>H = height above ground</li>
-<li>vegetation point = point with H &gt; = 2 m</li>
-<li>ground point = other than vegetation point</li>
-</ul>
-</li>
-</ol>
-<ul>
-<li>the range of H was divided into 10 fractions (0, 1, 2,…, 9) of equal distance</li>
-</ul>
-<p>In addition to these, calculate also intensity based features.</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_height_features" class="doc_header"><code>calc_height_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L82" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_height_features</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
-</blockquote>
-<p>Calculate height based features from dataframe, features 1, 2 and 4 from earlier</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_height_quantiles" class="doc_header"><code>calc_height_quantiles</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L95" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_height_quantiles</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
-</blockquote>
-<p>Calculate height quantiles for 5% intervals, feature 3</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_point_features" class="doc_header"><code>calc_point_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L102" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_point_features</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
-</blockquote>
-<p>Calculate point distribution based features, features 5 and 8 from earlier</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_intensity_features" class="doc_header"><code>calc_intensity_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L117" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_intensity_features</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
-</blockquote>
-<p>Calculate intensity based features</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_canopy_densities" class="doc_header"><code>calc_canopy_densities</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L128" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_canopy_densities</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
-</blockquote>
-<p>Divide the point cloud above <code>min_h</code> to 10 equal levels, and calculate D0,D1...D9,
-where Dx is the proportion of points in the interval [level<em>x, level</em>(x+1)]</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_point_proportions" class="doc_header"><code>calc_point_proportions</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L138" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_point_proportions</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
-</blockquote>
-<p>Calculate point proportions, feature 7</p>
+<p>Select only the circular field plot area as used lidar data, center point of plot is &lt;plot_x, plot_y&gt;</p>
 
 </div>
 
@@ -668,31 +416,555 @@ where Dx is the proportion of points in the interval [level<em>x, level</em>(x+1
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">example_df</span> <span class="o">=</span> <span class="n">las_to_df</span><span class="p">(</span><span class="n">data_path</span><span class="o">/</span><span class="n">example</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">example_df</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span>
-
+<span class="nb">print</span><span class="p">(</span><span class="n">example_df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+      
 <span class="n">example_df</span> <span class="o">=</span> <span class="n">mask_plot_from_lidar</span><span class="p">(</span><span class="n">example_df</span><span class="p">,</span> <span class="n">plot_x</span><span class="p">,</span><span class="n">plot_y</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">example_df</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">example_df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
 
-<span class="n">example_height</span> <span class="o">=</span> <span class="n">calc_height_features</span><span class="p">(</span><span class="n">example_df</span><span class="p">)</span>
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(402, 5)
+(286, 5)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Features calculated are adapted from (Næsset <a href="http://dx.doi.org/10.1080/02827580310019257">2004</a>; Packalén and Maltamo 2006, <a href="http://dx.doi.org/10.1139/X08-037">2008</a>), as well as other potentially usable.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The most basic features are height based and intensity based features:</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="calc_height_features" class="doc_header"><code>calc_height_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L85" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_height_features</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
+</blockquote>
+<p>Calculate height based features from dataframe from vegetation points (points with z-coordinate above <code>min_h</code>).
+Returns a list with maximum height, mean height, standard deviation for height and coefficient of variation for height</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="calc_intensity_features" class="doc_header"><code>calc_intensity_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L102" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_intensity_features</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
+</blockquote>
+<p>Calculate intensity based features from vegetation points (points with z-coordinate above <code>min_h</code>).
+Returns a list with maximum intensity, mean intensity and median intensity</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">height_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hmax&#39;</span><span class="p">,</span> <span class="s1">&#39;hmean&#39;</span><span class="p">,</span> <span class="s1">&#39;hstd&#39;</span><span class="p">,</span> <span class="s1">&#39;cv&#39;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">calc_height_features</span><span class="p">(</span><span class="n">lidar_df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">min_h</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Calculate height based features from dataframe from vegetation points (points with z-coordinate above `min_h`).</span>
+<span class="sd">    Returns a list with maximum height, mean height, standard deviation for height and coefficient of variation for height</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vege_df</span> <span class="o">=</span> <span class="n">lidar_df</span><span class="p">[</span><span class="n">lidar_df</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="n">min_h</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="n">hmax</span> <span class="o">=</span> <span class="n">vege_df</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="c1"># maximum height</span>
+    <span class="n">hmean</span> <span class="o">=</span> <span class="n">vege_df</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="c1"># mean height</span>
+    <span class="n">hstd</span>  <span class="o">=</span> <span class="n">vege_df</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="c1"># standard deviation for height</span>
+    <span class="n">cv</span> <span class="o">=</span> <span class="n">hstd</span> <span class="o">/</span> <span class="n">hmean</span> <span class="c1"># coefficient of variation</span>
+    
+    <span class="n">h_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">hmax</span><span class="p">,</span> <span class="n">hmean</span><span class="p">,</span> <span class="n">hstd</span><span class="p">,</span> <span class="n">cv</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">h_features</span>
+
+<span class="n">intensity_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;imax&#39;</span><span class="p">,</span> <span class="s1">&#39;imean&#39;</span><span class="p">,</span> <span class="s1">&#39;imedian&#39;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">calc_intensity_features</span><span class="p">(</span><span class="n">lidar_df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">min_h</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Calculate intensity based features from vegetation points (points with z-coordinate above `min_h`).</span>
+<span class="sd">    Returns a list with maximum intensity, mean intensity and median intensity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vege_df</span> <span class="o">=</span> <span class="n">lidar_df</span><span class="p">[</span><span class="n">lidar_df</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="n">min_h</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">imax</span> <span class="o">=</span> <span class="n">vege_df</span><span class="o">.</span><span class="n">intensity</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="c1"># maximum intensity</span>
+    <span class="n">imean</span> <span class="o">=</span> <span class="n">vege_df</span><span class="o">.</span><span class="n">intensity</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="c1"># mean intensity</span>
+    <span class="n">imedian</span> <span class="o">=</span> <span class="n">vege_df</span><span class="o">.</span><span class="n">intensity</span><span class="o">.</span><span class="n">median</span><span class="p">()</span> <span class="c1"># median intensity</span>
+    
+    <span class="n">intensity_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">imax</span><span class="p">,</span> <span class="n">imean</span><span class="p">,</span> <span class="n">imedian</span><span class="p">]</span>  
+    <span class="k">return</span> <span class="n">intensity_features</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">example_height</span> <span class="o">=</span> <span class="n">calc_height_features</span><span class="p">(</span><span class="n">example_df</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">example_height</span><span class="p">),</span> <span class="nb">list</span><span class="p">)</span>
 <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">example_height</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">height_cols</span><span class="p">))</span>
+<span class="n">example_height</span>
+</pre></div>
 
-<span class="n">example_point</span> <span class="o">=</span> <span class="n">calc_point_features</span><span class="p">(</span><span class="n">example_df</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">example_point</span><span class="p">),</span> <span class="nb">list</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">example_point</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">point_cols</span><span class="p">))</span>
+    </div>
+</div>
+</div>
 
-<span class="n">example_intensity</span> <span class="o">=</span> <span class="n">calc_intensity_features</span><span class="p">(</span><span class="n">example_df</span><span class="p">)</span>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[16.785, 10.236584615384617, 3.778763305849497, 0.36914297569233917]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">example_intensity</span> <span class="o">=</span> <span class="n">calc_intensity_features</span><span class="p">(</span><span class="n">example_df</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">example_intensity</span><span class="p">),</span> <span class="nb">list</span><span class="p">)</span>
 <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">example_intensity</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">intensity_cols</span><span class="p">))</span>
+<span class="n">example_intensity</span>
+</pre></div>
 
-<span class="n">example_quantiles</span> <span class="o">=</span> <span class="n">calc_height_quantiles</span><span class="p">(</span><span class="n">example_df</span><span class="p">)</span>
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[9.0, 3.6615384615384614, 3.0]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Also get the levels H00, H05,..., H90, H95, where corresponding percentages of vegetation points were accumulated.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="calc_height_quantiles" class="doc_header"><code>calc_height_quantiles</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L119" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_height_quantiles</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
+</blockquote>
+<p>Calculate height quantiles for 5% intervals, feature 3</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">quantile_cols</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;h</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">95</span><span class="p">,</span> <span class="mi">20</span><span class="p">)]</span> <span class="c1"># last quantile is the same as hmax</span>
+
+<span class="k">def</span> <span class="nf">calc_height_quantiles</span><span class="p">(</span><span class="n">lidar_df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">min_h</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="s2">&quot;Calculate height quantiles for 5</span><span class="si">% i</span><span class="s2">ntervals, feature 3&quot;</span>
+    <span class="n">vege_df</span> <span class="o">=</span> <span class="n">lidar_df</span><span class="p">[</span><span class="n">lidar_df</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="n">min_h</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">quantiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">vege_df</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">.</span><span class="mi">95</span><span class="p">,</span><span class="mi">20</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">quantiles</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">example_quantiles</span> <span class="o">=</span> <span class="n">calc_height_quantiles</span><span class="p">(</span><span class="n">example_df</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">example_quantiles</span><span class="p">),</span> <span class="nb">list</span><span class="p">)</span>
 <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">example_quantiles</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">quantile_cols</span><span class="p">))</span>
+<span class="n">example_quantiles</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]</span>
+</pre></div>
 
-<span class="n">example_proportions</span> <span class="o">=</span> <span class="n">calc_point_proportions</span><span class="p">(</span><span class="n">example_df</span><span class="p">)</span>
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[13.213000000000001, 13.424600000000002, 13.6326, 14.2442, 15.740599999999997]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next get the proportion of vetgetation points with H greater or equal to corresponding percentile of H, as well as proportion of vegetation points and veg/ground ratio.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="calc_point_proportions" class="doc_header"><code>calc_point_proportions</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L131" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_point_proportions</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
+</blockquote>
+<p>Calculate point proportions for points above quantiles H05, H10,..., H90, H95</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="calc_point_features" class="doc_header"><code>calc_point_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L139" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_point_features</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
+</blockquote>
+<p>Calculate point distribution based features, features 5 and 8 from earlier</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">point_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;veg&#39;</span><span class="p">,</span> <span class="s1">&#39;veg_ground_ratio&#39;</span><span class="p">]</span>
+<span class="n">proportion_cols</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;p</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span><span class="mi">95</span><span class="p">,</span> <span class="mi">19</span><span class="p">)]</span>
+
+<span class="k">def</span> <span class="nf">calc_point_proportions</span><span class="p">(</span><span class="n">lidar_df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">min_h</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="s2">&quot;Calculate point proportions for points above quantiles H05, H10,..., H90, H95&quot;</span>
+    <span class="n">vege_df</span> <span class="o">=</span> <span class="n">lidar_df</span><span class="p">[</span><span class="n">lidar_df</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="n">min_h</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">quantiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">vege_df</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span><span class="o">.</span><span class="mi">95</span><span class="p">,</span><span class="mi">19</span><span class="p">)]</span>
+    <span class="n">proportions</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">[</span><span class="n">vege_df</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="n">q</span><span class="p">])</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">quantiles</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">proportions</span>
+
+<span class="k">def</span> <span class="nf">calc_point_features</span><span class="p">(</span><span class="n">lidar_df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">min_h</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="s2">&quot;Calculate point distribution based features, features 5 and 8 from earlier&quot;</span>
+    <span class="n">vege_df</span> <span class="o">=</span> <span class="n">lidar_df</span><span class="p">[</span><span class="n">lidar_df</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="n">min_h</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
+    <span class="c1"># Proportion of vegetation points</span>
+    <span class="n">veg</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">lidar_df</span><span class="p">)</span> <span class="c1"># proportion of vegetation point</span>
+    
+    <span class="c1"># Proportion of ground points</span>
+    <span class="n">ground</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lidar_df</span><span class="p">)</span><span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">lidar_df</span><span class="p">)</span>
+
+    <span class="c1"># Ratio between vegetation points and ground points</span>
+    <span class="n">veg_ground_ratio</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">ground</span><span class="p">)</span>
+    <span class="n">point_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">veg</span><span class="p">,</span> <span class="n">veg_ground_ratio</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">point_features</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">example_point</span> <span class="o">=</span> <span class="n">calc_point_features</span><span class="p">(</span><span class="n">example_df</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">example_point</span><span class="p">),</span> <span class="nb">list</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">example_point</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">point_cols</span><span class="p">))</span>
+<span class="n">example_point</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[0.22727272727272727, 84.11764705882354]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">example_proportions</span> <span class="o">=</span> <span class="n">calc_point_proportions</span><span class="p">(</span><span class="n">example_df</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">example_proportions</span><span class="p">),</span> <span class="nb">list</span><span class="p">)</span>
 <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">example_proportions</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">proportion_cols</span><span class="p">))</span>
+<span class="n">example_proportions</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]</span>
+</pre></div>
 
-<span class="n">example_densities</span> <span class="o">=</span> <span class="n">calc_canopy_densities</span><span class="p">(</span><span class="n">example_df</span><span class="p">)</span>
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[0.26153846153846155,
+ 0.2,
+ 0.15384615384615385,
+ 0.1076923076923077,
+ 0.06153846153846154]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Calculate canopy densities D0,...D9, where Dx is the proportion of vegetation points between level_x and level_x+1. Interval <code>min_h</code> and maximum height of the point cloud is divided into ten equal length levels.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="calc_canopy_densities" class="doc_header"><code>calc_canopy_densities</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L156" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_canopy_densities</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
+</blockquote>
+<p>Divide the point cloud above <code>min_h</code> to 10 equal levels, and calculate D0,D1...D9,
+where Dx is the proportion of points in the interval [level<em>x, level</em>(x+1)]</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>   
+<span class="k">def</span> <span class="nf">calc_canopy_densities</span><span class="p">(</span><span class="n">lidar_df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">min_h</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Divide the point cloud above `min_h` to 10 equal levels, and calculate D0,D1...D9, </span>
+<span class="sd">    where Dx is the proportion of points in the interval [level_x, level_(x+1)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vege_df</span> <span class="o">=</span> <span class="n">lidar_df</span><span class="p">[</span><span class="n">lidar_df</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="n">min_h</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vege_df</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="n">vege_df</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span><span class="mi">11</span><span class="p">)</span>
+    <span class="n">proportions</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">[</span><span class="n">vege_df</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">levels</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">proportions</span>
+
+<span class="n">density_cols</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;d</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">10</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">example_densities</span> <span class="o">=</span> <span class="n">calc_canopy_densities</span><span class="p">(</span><span class="n">example_df</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">example_densities</span><span class="p">),</span> <span class="nb">list</span><span class="p">)</span>
 <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">example_densities</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">density_cols</span><span class="p">))</span>
 </pre></div>
@@ -751,7 +1023,7 @@ where Dx is the proportion of points in the interval [level<em>x, level</em>(x+1
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="voxel_grid_from_las" class="doc_header"><code>voxel_grid_from_las</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L156" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>voxel_grid_from_las</code>(<strong><code>lasfile</code></strong>:<code>File</code>, <strong><code>plot_x</code></strong>:<code>float</code>, <strong><code>plot_y</code></strong>:<code>float</code>, <strong><code>bin_voxels</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>max_h</code></strong>:<code>float</code>=<em><code>42.0</code></em>, <strong><code>plot_size</code></strong>:<code>float</code>=<em><code>9.0</code></em>, <strong><code>bottom_voxels</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>mask_plot</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
+<h4 id="voxel_grid_from_las" class="doc_header"><code>voxel_grid_from_las</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L169" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>voxel_grid_from_las</code>(<strong><code>lasfile</code></strong>:<code>File</code>, <strong><code>plot_x</code></strong>:<code>float</code>, <strong><code>plot_y</code></strong>:<code>float</code>, <strong><code>bin_voxels</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>max_h</code></strong>:<code>float</code>=<em><code>42.0</code></em>, <strong><code>plot_size</code></strong>:<code>float</code>=<em><code>9.0</code></em>, <strong><code>bottom_voxels</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>mask_plot</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Create voxel grid from lidar point cloud</p>
 
