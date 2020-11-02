@@ -50,20 +50,59 @@ nb_path: "nbs/index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>TODO</p>
+<p>Instructions here.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="How-to-use">How to use<a class="anchor-link" href="#How-to-use"> </a></h2>
+<h3 id="Using-singularity-containers-in-Puhti">Using singularity containers in Puhti<a class="anchor-link" href="#Using-singularity-containers-in-Puhti"> </a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Examples are presented in [examples].</p>
+<p>Easiest way to use and develop this library in Puhti is to use singularity container with all required libraries.</p>
+<p>Use instructions in [<a href="https://cloud.sylabs.io/builder">https://cloud.sylabs.io/builder</a>] to set access tokens and then run</p>
+<div class="highlight"><pre><span></span>singularity build --remote enveco-container.sif enveco-container.def
+</pre></div>
+<p>Edit <code>enveco-container.def</code> to such that correct shared locations are used, and edit row <code>mkdir -p /projappl /scratch /users/mayrajan</code> to contain your own home directory.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To start working, run singularity shell with command</p>
+<div class="highlight"><pre><span></span>singularity shell -nv --writable-tmpfs --bind <span class="nv">$PROJAPPL</span>:/projappl --bind <span class="nv">$SCRATCH</span>:/scratch --bind <span class="nv">$HOME</span>:/users/&lt;uid&gt; enveco-container.sif
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Usage">Usage<a class="anchor-link" href="#Usage"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Add examples.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Authors">Authors<a class="anchor-link" href="#Authors"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Add here.</p>
 
 </div>
 </div>

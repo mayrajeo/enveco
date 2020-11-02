@@ -11,8 +11,30 @@ This repository contains the code for WP3: Machine Learning and Remote Sensing i
 
 ## Install
 
-TODO
+Instructions here.
 
-## How to use
+### Using singularity containers in Puhti
 
-Examples are presented in [examples].
+Easiest way to use and develop this library in Puhti is to use singularity container with all required libraries. 
+
+Use instructions in [https://cloud.sylabs.io/builder] to set access tokens and then run 
+
+```bash
+singularity build --remote enveco-container.sif enveco-container.def
+```
+
+Edit `enveco-container.def` to such that correct shared locations are used, and edit row `mkdir -p /projappl /scratch /users/mayrajan` to contain your own home directory.
+
+To start working, run singularity shell with command 
+
+```bash
+singularity shell -nv --writable-tmpfs --bind $PROJAPPL:/projappl --bind $SCRATCH:/scratch --bind $HOME:/users/<uid> enveco-container.sif
+```
+
+## Usage
+
+Add examples.
+
+## Authors
+
+Add here.

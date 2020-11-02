@@ -470,7 +470,7 @@ Also convert point cloud to photogrammetric, meaning only one z-coordinate in ea
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_height_features" class="doc_header"><code>calc_height_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L85" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_height_features</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
+<h4 id="calc_height_features" class="doc_header"><code>calc_height_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L84" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_height_features</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
 </blockquote>
 <p>Calculate height based features from dataframe from vegetation points (points with z-coordinate above <code>min_h</code>).
 Returns a list with maximum height, mean height, standard deviation for height and coefficient of variation for height</p>
@@ -496,7 +496,7 @@ Returns a list with maximum height, mean height, standard deviation for height a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_intensity_features" class="doc_header"><code>calc_intensity_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L102" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_intensity_features</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
+<h4 id="calc_intensity_features" class="doc_header"><code>calc_intensity_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L101" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_intensity_features</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
 </blockquote>
 <p>Calculate intensity based features from vegetation points (points with z-coordinate above <code>min_h</code>).
 Returns a list with maximum intensity, mean intensity and median intensity</p>
@@ -648,7 +648,7 @@ Returns a list with maximum intensity, mean intensity and median intensity</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_height_quantiles" class="doc_header"><code>calc_height_quantiles</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L119" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_height_quantiles</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
+<h4 id="calc_height_quantiles" class="doc_header"><code>calc_height_quantiles</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L118" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_height_quantiles</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
 </blockquote>
 <p>Calculate height quantiles for 5% intervals, feature 3</p>
 
@@ -740,7 +740,7 @@ Returns a list with maximum intensity, mean intensity and median intensity</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_point_proportions" class="doc_header"><code>calc_point_proportions</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L131" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_point_proportions</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
+<h4 id="calc_point_proportions" class="doc_header"><code>calc_point_proportions</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L130" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_point_proportions</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
 </blockquote>
 <p>Calculate point proportions for points above quantiles H05, H10,..., H90, H95</p>
 
@@ -765,9 +765,9 @@ Returns a list with maximum intensity, mean intensity and median intensity</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_point_features" class="doc_header"><code>calc_point_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L139" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_point_features</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
+<h4 id="calc_point_features" class="doc_header"><code>calc_point_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L138" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_point_features</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
 </blockquote>
-<p>Calculate point distribution based features, features 5 and 8 from earlier</p>
+<p>Calculate proportion of vegetation points and ratio between vegetation and ground points</p>
 
 </div>
 
@@ -798,7 +798,7 @@ Returns a list with maximum intensity, mean intensity and median intensity</p>
     <span class="k">return</span> <span class="n">proportions</span>
 
 <span class="k">def</span> <span class="nf">calc_point_features</span><span class="p">(</span><span class="n">lidar_df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">min_h</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-    <span class="s2">&quot;Calculate point distribution based features, features 5 and 8 from earlier&quot;</span>
+    <span class="s2">&quot;Calculate proportion of vegetation points and ratio between vegetation and ground points&quot;</span>
     <span class="n">vege_df</span> <span class="o">=</span> <span class="n">lidar_df</span><span class="p">[</span><span class="n">lidar_df</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="n">min_h</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vege_df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
     <span class="c1"># Proportion of vegetation points</span>
@@ -914,7 +914,7 @@ Returns a list with maximum intensity, mean intensity and median intensity</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_canopy_densities" class="doc_header"><code>calc_canopy_densities</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L156" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_canopy_densities</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
+<h4 id="calc_canopy_densities" class="doc_header"><code>calc_canopy_densities</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L155" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_canopy_densities</code>(<strong><code>lidar_df</code></strong>:<code>DataFrame</code>, <strong><code>min_h</code></strong>:<code>int</code>=<em><code>1.5</code></em>)</p>
 </blockquote>
 <p>Divide the point cloud above <code>min_h</code> to 10 equal levels, and calculate D0,D1...D9,
 where Dx is the proportion of points in the interval [level<em>x, level</em>(x+1)]</p>
@@ -1023,7 +1023,7 @@ where Dx is the proportion of points in the interval [level<em>x, level</em>(x+1
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="voxel_grid_from_las" class="doc_header"><code>voxel_grid_from_las</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L169" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>voxel_grid_from_las</code>(<strong><code>lasfile</code></strong>:<code>File</code>, <strong><code>plot_x</code></strong>:<code>float</code>, <strong><code>plot_y</code></strong>:<code>float</code>, <strong><code>bin_voxels</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>max_h</code></strong>:<code>float</code>=<em><code>42.0</code></em>, <strong><code>plot_size</code></strong>:<code>float</code>=<em><code>9.0</code></em>, <strong><code>bottom_voxels</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>mask_plot</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
+<h4 id="voxel_grid_from_las" class="doc_header"><code>voxel_grid_from_las</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/las.py#L168" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>voxel_grid_from_las</code>(<strong><code>lasfile</code></strong>:<code>File</code>, <strong><code>plot_x</code></strong>:<code>float</code>, <strong><code>plot_y</code></strong>:<code>float</code>, <strong><code>bin_voxels</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>max_h</code></strong>:<code>float</code>=<em><code>42.0</code></em>, <strong><code>plot_size</code></strong>:<code>float</code>=<em><code>9.0</code></em>, <strong><code>bottom_voxels</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>mask_plot</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Create voxel grid from lidar point cloud</p>
 
@@ -1256,8 +1256,7 @@ where Dx is the proportion of points in the interval [level<em>x, level</em>(x+1
 Converted 01_las.ipynb.
 Converted 02_tabular.ipynb.
 Converted index.ipynb.
-converting: /mnt/d/Users/E1005164/enveco/nbs/01_las.ipynb
-converting: /mnt/d/Users/E1005164/enveco/nbs/02_tabular.ipynb
+converting: /mnt/d/Users/E1005164/enveco/nbs/00_image.ipynb
 converting /mnt/d/Users/E1005164/enveco/nbs/index.ipynb to README.md
 </pre>
 </div>
