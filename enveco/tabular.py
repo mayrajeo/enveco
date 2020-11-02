@@ -151,6 +151,7 @@ def adjusted_R2Score(r2_score, n, k):
     "Calculates adjusted_R2Score based on r2_score, number of observations (n) and number of predictor variables(k)"
     return 1 - (((n-1)/(n-k-1)) * (1 - r2_score))
 
+# Cell
 def _rrmse(inp, targ):
     "RMSE normalized with mean of the target"
     return torch.sqrt(F.mse_loss(inp, targ)) / targ.mean() * 100
@@ -158,6 +159,7 @@ def _rrmse(inp, targ):
 rrmse = AccumMetric(_rrmse)
 rrmse.__doc__ = "Target mean weighted rmse"
 
+# Cell
 def _bias(inp, targ):
     "Bias metric"
     inp, targ = flatten_check(inp, targ)
@@ -166,13 +168,14 @@ def _bias(inp, targ):
 bias = AccumMetric(_bias)
 bias.__doc__ = 'Bias metric'
 
+# Cell
 def _bias_pct(inp, targ):
     "Percent bias"
     inp, targ = flatten_check(inp, targ)
     return 100 * ((inp-targ).sum()/len(targ)) / targ.mean()
 
 bias_pct = AccumMetric(_bias_pct)
-bias_pct.__doc__ = 'Mean weighed bias'
+bias_pct.__doc__ = 'Mean weighted bias'
 
 # Cell
 class ANNEnsemble():
