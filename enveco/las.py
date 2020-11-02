@@ -77,7 +77,6 @@ def mask_plot_from_lidar(lidar_df:pd.DataFrame, plot_x:float, plot_y:float, radi
     lidar_df = lidar_df[lidar_df.apply(lambda row:np.linalg.norm(np.array([row.x, row.y]).T - np.array([plot_x, plot_y]).T) <= 9, axis=1)]
     return lidar_df
 
-
 # Cell
 
 height_cols = ['hmax', 'hmean', 'hstd', 'cv']
@@ -137,7 +136,7 @@ def calc_point_proportions(lidar_df:pd.DataFrame, min_h:int=1.5) -> list:
     return proportions
 
 def calc_point_features(lidar_df:pd.DataFrame, min_h:int=1.5) -> list:
-    "Calculate point distribution based features, features 5 and 8 from earlier"
+    "Calculate proportion of vegetation points and ratio between vegetation and ground points"
     vege_df = lidar_df[lidar_df.z >= min_h]
     if len(vege_df) == 0: return None
     # Proportion of vegetation points
