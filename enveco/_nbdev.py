@@ -40,11 +40,22 @@ index = {"open_geotiff": "00_image.ipynb",
          "ANNEnsemble": "02_tabular.ipynb",
          "load_ensemble": "02_tabular.ipynb",
          "RegressionInterpretation": "02_tabular.ipynb",
-         "plot_sklearn_regression": "02_tabular.ipynb"}
+         "plot_sklearn_regression": "02_tabular.ipynb",
+         "BasicConv3d": "03_inception3dv3.ipynb",
+         "calc_same_padding": "03_inception3dv3.ipynb",
+         "Inception3dV3": "03_inception3dv3.ipynb",
+         "Inception3dV3Outputs": "03_inception3dv3.ipynb",
+         "Inception3dV3Outputs.__annotations__": "03_inception3dv3.ipynb",
+         "Inception3dA": "03_inception3dv3.ipynb",
+         "Inception3dB": "03_inception3dv3.ipynb",
+         "Inception3dC": "03_inception3dv3.ipynb",
+         "Inception3dD": "03_inception3dv3.ipynb",
+         "Inception3dE": "03_inception3dv3.ipynb"}
 
 modules = ["image.py",
            "las.py",
-           "tabular.py"]
+           "tabular.py",
+           "inception3dv3.py"]
 
 doc_url = "https://jaeeolma.github.io/enveco/"
 

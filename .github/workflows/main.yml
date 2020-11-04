@@ -23,7 +23,7 @@ jobs:
         pip install geopandas
         gdal_translate --version
         pip install opencv-python scikit-image albumentations nbdev pyarrow wandb tensorboard captum laspy 
-        pip install shap fastinference fastinference[interp]
+        pip install shap fastinference fastinference[interp] torchsummary
         pip install -e .
     - name: Read all notebooks
       run: |
