@@ -18,6 +18,9 @@ entries:
     - output: web,pdf
       title: Tabular model utilities for Enveco
       url: tabular.html
+    - output: web,pdf
+      title: InceptionV3 for 3d data
+      url: inception3dv3.html
     output: web
     title: enveco
   output: web
