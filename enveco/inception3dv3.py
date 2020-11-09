@@ -375,7 +375,7 @@ class Inception3dC(nn.Module):
             conv_block = BasicConv3d
 
        # self.branch_a_1 = nn.MaxPool3d(kernel_size=(2,2,2), stride=(2,2,2)) # Same pad
-        self.branch_a_1 = PaddedMaxPool3d(kernel_size=(2,2,2), stride=(2,2,2), same_padding=True)
+        self.branch_a_1 = PaddedMaxPool3d(kernel_size=(2,2,2), stride=(1,1,1), same_padding=True)
         self.branch_a_2 = conv_block(in_channels, outshapes[3], kernel_size=(1,1,1), stride=(1,1,1), same_padding=True) # same pad
 
         # all same pad
