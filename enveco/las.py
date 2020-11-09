@@ -246,6 +246,9 @@ def get_las_data(inps, bin_voxels:bool=False, max_h:float=42., num_bins:int=40, 
     lasfile.close()
     H = np.moveaxis(H, 2, 0)
     H = H[None,...]
+
+    H = H.astype(np.float32)
+
     return H
 
 #VoxelImage.create = Transform(VoxelImage.create)
