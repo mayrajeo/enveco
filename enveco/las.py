@@ -3,8 +3,8 @@
 __all__ = ['plot_point_cloud', 'plot_2d_views', 'las_to_df', 'mask_plot_from_lidar', 'calc_height_features',
            'calc_intensity_features', 'height_cols', 'intensity_cols', 'calc_height_quantiles', 'quantile_cols',
            'calc_point_proportions', 'calc_point_features', 'point_cols', 'proportion_cols', 'calc_canopy_densities',
-           'density_cols', 'voxel_grid_from_las', 'VoxelImage', 'get_las_data', 'get_3d_grid', 'VoxelBlock',
-           'LasColReader', 'VoxelDataLoaders']
+           'density_cols', 'VoxelImage', 'get_las_data', 'get_3d_grid', 'VoxelBlock', 'LasColReader',
+           'VoxelDataLoaders']
 
 # Cell
 import laspy
@@ -166,40 +166,6 @@ def calc_canopy_densities(lidar_df:pd.DataFrame, min_h:int=1.5) -> list:
 density_cols = [f'd{int(q):02d}' for q in np.linspace(0,90,10)]
 
 # Cell
-def voxel_grid_from_las(lasfile:laspy.file.File, plot_x:float, plot_y:float, num_bins:int=40, num_vert_bins:int=105,
-                        bin_voxels:bool=False, max_h:float=41., plot_size:float=9., bottom_voxels:bool=False,
-                        mask_plot:bool=False) -> np.ndarray:
-    "Create voxel grid from lidar point cloud"
-    coords = np.vstack((lasfile.x, lasfile.y, lasfile.z)).T
-    min_vals = (plot_x-plot_size, plot_y-plot_size)
-
-    # Create bins and calculate histograms
-    H, edges = np.histogramdd(coords, bins=(np.linspace(min_vals[0]-.001, min_vals[0] + 2*plot_size, num_bins + 1),
-                                            np.linspace(min_vals[1]-.001, min_vals[1] + 2*plot_size, num_bins + 1),
-                                            np.linspace(0, max_h, num_vert_bins+1)))
-
-    if bin_voxels: H = np.where(H!=0,1,0)
-
-    H = H.astype('int8')
-
-    if bottom_voxels:
-        for x, y in product(range(num_bins), range(num_bins)):
-            if np.max(H[x,y]) == 0: max_idx_of_voxel = 0
-            else:
-                max_idx_of_voxel = np.argwhere(H[x,y] == np.max(H[x,y])).max()
-            for z in range(max_idx_of_voxel+1):
-                H[x,y,z] = 1
-
-    if mask_plot:
-        center = (int(H.shape[0]/2), int(H.shape[1]/2))
-        X, Y = np.ogrid[:H.shape[0], :H.shape[1]]
-        dist_from_center = np.sqrt((X-center[0])**2 + (Y-center[1])**2)
-        mask = dist_from_center <= H.shape[0]/2
-        H[~mask,:] = 0
-
-    return H
-
-# Cell
 from fastai.basics import *
 
 from fastai.data.all import *
@@ -208,6 +174,7 @@ from fastai.vision.data import *
 
 # Cell
 class VoxelImage(TensorImage):
+    "Class for 3D Voxel image, todo add"
     _show_args = ArrayImageBase._show_args
 
     def show(self, ax=None, ctx=None, figsize=(5,5), title=None, **kwargs):
@@ -231,10 +198,19 @@ class VoxelImage(TensorImage):
 
     def __repr__(self): return f'{self.__class__.__name__} size={"x".join([str(d) for d in self.shape])}'
 
-def get_las_data(inps, #plot_x:float, plot_y:float,
-                 bin_voxels:bool=False, max_h:float=42.,
+def get_las_data(inps, bin_voxels:bool=False, max_h:float=42., num_bins:int=40, num_vert_bins:int=105,
                  plot_size:float=9., bottom_voxels:bool=False, mask_plot:bool=False) -> np.ndarray:
-    "Create voxel grid from lidar point cloud file"
+    """
+    Create voxel grid from lidar point cloud file. Inps is a list or tuple containing filename, plot_x and plot_y.
+    Other arguments:
+        * `bin_voxels`: whether to have intensity value for each voxel, default False
+        * `max_h`: maximum possible height for field plot, default 42 (m)
+        * `num_bins`, number of horizontal bins, default 40
+        * `num_vert_bins`: number of horizontal bins, default 105
+        * `plot_size`: radius for field plot, default 9 (m)
+        * `bottom_voxels`: whether to voxelize all locations below a voxel, default False
+        * `mask_plot`: whether to mask all areas outside the 9m radius, default False
+        """
     fn = inps[0]
     plot_x = inps[1]
     plot_y = inps[2]
@@ -322,8 +298,8 @@ class LasColReader(DisplayedTransform):
 class VoxelDataLoaders(DataLoaders):
     @classmethod
     @delegates(DataLoaders.from_dblock)
-    def from_df(cls, df, path='.', bin_voxels:bool=False, max_h:float=42., plot_size:float=9.,
-                bottom_voxels:bool=False, mask_plot:bool=False, valid_pct=0.2, seed=None, fn_col=0,
+    def from_df(cls, df, path='.', bin_voxels:bool=False, max_h:float=42., num_bins:int=40, num_vert_bins:int=105,
+                plot_size:float=9., bottom_voxels:bool=False, mask_plot:bool=False, valid_pct=0.2, seed=None, fn_col=0,
                 folder=None, suff='', label_col=1, label_delim=None, y_block=None, valid_col=None,
                 item_tfms=None, batch_tfms=None, **kwargs):
         pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
@@ -331,7 +307,9 @@ class VoxelDataLoaders(DataLoaders):
             is_multi = (is_listy(label_col) and (len_label_col) > 1) or label_delim is not None
             y_block = MultiCategoryBlock if is_multi else CategoryBlock
         splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)
-        dblock = DataBlock(blocks=(VoxelBlock, y_block),
+        block_kwargs = {'bin_voxels':bin_voxels, 'max_h':max_h, 'num_bins':num_bins, 'num_vert_bins': num_vert_bins,
+                        'plot_size':plot_size, 'bottom_voxels':bottom_voxels, 'mask_plot':mask_plot}
+        dblock = DataBlock(blocks=(VoxelBlock(**block_kwargs), y_block),
                            #get_items=partial(get_files_from_df, extension='.las', df=df, fn_col=fn_col),
                            #get_x=partial(get_las_files_and_voxel_kwargs, df=df,
                            #              bottom_voxels=bottom_voxels, mask_plot=mask_plot),

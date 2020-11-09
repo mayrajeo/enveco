@@ -4,7 +4,6 @@
     "Image": "image.html",
     "Las": "las.html",
     "Tabular model utilities for Enveco": "tabular.html",
-    "InceptionV3 for 3d data": "inception3dv3.html",
-    "voxel_dataloaders": "voxel_dataloaders.html"
+    "InceptionV3 for 3d data": "inception3dv3.html"
   }
 }
