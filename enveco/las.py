@@ -3,7 +3,8 @@
 __all__ = ['plot_point_cloud', 'plot_2d_views', 'las_to_df', 'mask_plot_from_lidar', 'calc_height_features',
            'calc_intensity_features', 'height_cols', 'intensity_cols', 'calc_height_quantiles', 'quantile_cols',
            'calc_point_proportions', 'calc_point_features', 'point_cols', 'proportion_cols', 'calc_canopy_densities',
-           'density_cols', 'voxel_grid_from_las']
+           'density_cols', 'voxel_grid_from_las', 'VoxelImage', 'get_las_data', 'get_3d_grid', 'VoxelBlock',
+           'LasColReader', 'VoxelDataLoaders']
 
 # Cell
 import laspy
@@ -165,15 +166,12 @@ def calc_canopy_densities(lidar_df:pd.DataFrame, min_h:int=1.5) -> list:
 density_cols = [f'd{int(q):02d}' for q in np.linspace(0,90,10)]
 
 # Cell
-def voxel_grid_from_las(lasfile:laspy.file.File, plot_x:float, plot_y:float, bin_voxels:bool=False,
-                        max_h:float=42., plot_size:float=9., bottom_voxels:bool=False, mask_plot:bool=False) -> np.ndarray:
+def voxel_grid_from_las(lasfile:laspy.file.File, plot_x:float, plot_y:float, num_bins:int=40, num_vert_bins:int=105,
+                        bin_voxels:bool=False, max_h:float=41., plot_size:float=9., bottom_voxels:bool=False,
+                        mask_plot:bool=False) -> np.ndarray:
     "Create voxel grid from lidar point cloud"
     coords = np.vstack((lasfile.x, lasfile.y, lasfile.z)).T
     min_vals = (plot_x-plot_size, plot_y-plot_size)
-
-    # Should match to 1mx1mx1m voxels maybe
-    num_bins = 19
-    num_vert_bins = 43
 
     # Create bins and calculate histograms
     H, edges = np.histogramdd(coords, bins=(np.linspace(min_vals[0]-.001, min_vals[0] + 2*plot_size, num_bins + 1),
@@ -200,3 +198,155 @@ def voxel_grid_from_las(lasfile:laspy.file.File, plot_x:float, plot_y:float, bin
         H[~mask,:] = 0
 
     return H
+
+# Cell
+from fastai.basics import *
+
+from fastai.data.all import *
+from fastai.vision.all import *
+from fastai.vision.data import *
+
+# Cell
+class VoxelImage(TensorImage):
+    _show_args = ArrayImageBase._show_args
+
+    def show(self, ax=None, ctx=None, figsize=(5,5), title=None, **kwargs):
+        ax = ifnone(ax, ctx)
+        if ax is None: _, ax = plt.subplots(figsize=figsize, subplot_kw={'projection': '3d'})
+        tempim = self[0].cpu().numpy()
+        tempim = np.moveaxis(tempim, 0, 2)
+        ax.voxels(tempim)
+        if title is not None: ax.set_title(title)
+        return ax
+
+    @classmethod
+    def create(cls, fn:(Tensor,np.ndarray,Path, str), **kwargs) -> None:
+        "Create voxel point cloud from file"
+        if isinstance(fn, Tensor): fn = fn.numpy()
+        if isinstance(fn, ndarray):
+            im = torch.from_numpy(fn)
+            return cls(im)
+        if isinstance(fn, tuple) or isinstance(fn, list):
+            return cls(get_las_data(fn, **kwargs))
+
+    def __repr__(self): return f'{self.__class__.__name__} size={"x".join([str(d) for d in self.shape])}'
+
+def get_las_data(inps, #plot_x:float, plot_y:float,
+                 bin_voxels:bool=False, max_h:float=42.,
+                 plot_size:float=9., bottom_voxels:bool=False, mask_plot:bool=False) -> np.ndarray:
+    "Create voxel grid from lidar point cloud file"
+    fn = inps[0]
+    plot_x = inps[1]
+    plot_y = inps[2]
+    lasfile = laspy.file.File(fn, mode='r')
+    coords = np.vstack((lasfile.x, lasfile.y, lasfile.z)).T
+    min_vals = (plot_x-plot_size, plot_y-plot_size)
+
+    num_bins = 40
+    num_vert_bins = 105
+
+    # Create bins and calculate histograms
+    H, edges = np.histogramdd(coords, bins=(np.linspace(min_vals[0]-.001, min_vals[0] + 2*plot_size, num_bins + 1),
+                                            np.linspace(min_vals[1]-.001, min_vals[1] + 2*plot_size, num_bins + 1),
+                                            np.linspace(0, max_h, num_vert_bins+1)))
+
+    if bin_voxels: H = np.where(H!=0,1,0)
+
+    if bottom_voxels:
+        for x, y in product(range(num_bins), range(num_bins)):
+            if np.max(H[x,y]) == 0: max_idx_of_voxel = 0
+            else:
+                max_idx_of_voxel = np.argwhere(H[x,y] == np.max(H[x,y])).max()
+            for z in range(max_idx_of_voxel+1):
+                H[x,y,z] = 1
+
+    if mask_plot:
+        center = (int(H.shape[0]/2), int(H.shape[1]/2))
+        X, Y = np.ogrid[:H.shape[0], :H.shape[1]]
+        dist_from_center = np.sqrt((X-center[0])**2 + (Y-center[1])**2)
+        mask = dist_from_center <= H.shape[0]/2
+        H[~mask,:] = 0
+
+    lasfile.close()
+    H = np.moveaxis(H, 2, 0)
+    H = H[None,...]
+    return H
+
+#VoxelImage.create = Transform(VoxelImage.create)
+
+# Cell
+
+@delegates(subplots)
+def get_3d_grid(n, nrows=None, ncols=None, add_vert=0, figsize=None, double=False, title=None, return_fig=False, **kwargs):
+    "Return a grid of `n` axes, `rows` by `cols`"
+    nrows = nrows or int(math.sqrt(n))
+    ncols = ncols or int(np.ceil(n/nrows))
+    if double: ncols*=2 ; n*=2
+    fig,axs = subplots(nrows, ncols, figsize=figsize, subplot_kw={'projection': '3d'}, **kwargs)
+    axs = [ax if i<n else ax.set_axis_off() for i, ax in enumerate(axs.flatten())][:n]
+    if title is not None: fig.suptitle(title, weight='bold', size=14)
+    return (fig,axs) if return_fig else axs
+
+@typedispatch
+def show_batch(x:VoxelImage, y, samples, ctxs=None, max_n=6, ncols=2, figsize=None, **kwargs):
+    if figsize is None: figsize = (ncols*6, max_n//ncols * 3)
+    if ctxs is None: ctxs = get_3d_grid(min(x.shape[0], max_n), nrows=None, ncols=ncols, figsize=figsize)
+    for i, ctx in enumerate(ctxs): VoxelImage(x[i]).show(ctx, title=round(y[i].item(), 3))
+
+# Cell
+
+def VoxelBlock(cls=VoxelImage, **kwargs):
+    return TransformBlock(partial(cls.create, **kwargs))
+
+# Cell
+
+class LasColReader(DisplayedTransform):
+    "Modified co"
+    def __init__(self, cols, pref='', suff='.las'):
+        store_attr()
+        self.pref = str(pref) + os.path.sep if isinstance(pref,Path) else pref
+        self.cols = L(cols)
+
+    def _do_one(self, r, c):
+        "Return fname, plot_x, plot_y -tuple"
+        o = r[c] if isinstance(c,int) else r[c] if c=='name' else getattr(r,c)
+        if len(self.pref)==0 and len(self.suff)==0: return o
+        return [f"{self.pref}{o}{self.suff}", r['x'], r['y']]
+
+    def __call__(self, o, **kwargs):
+        if len(self.cols) == 1: return self._do_one(o, self.cols[0])
+        return L(self._do_one(o,c) for c in self.cols)
+
+# Cell
+
+class VoxelDataLoaders(DataLoaders):
+    @classmethod
+    @delegates(DataLoaders.from_dblock)
+    def from_df(cls, df, path='.', bin_voxels:bool=False, max_h:float=42., plot_size:float=9.,
+                bottom_voxels:bool=False, mask_plot:bool=False, valid_pct=0.2, seed=None, fn_col=0,
+                folder=None, suff='', label_col=1, label_delim=None, y_block=None, valid_col=None,
+                item_tfms=None, batch_tfms=None, **kwargs):
+        pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
+        if y_block is None:
+            is_multi = (is_listy(label_col) and (len_label_col) > 1) or label_delim is not None
+            y_block = MultiCategoryBlock if is_multi else CategoryBlock
+        splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)
+        dblock = DataBlock(blocks=(VoxelBlock, y_block),
+                           #get_items=partial(get_files_from_df, extension='.las', df=df, fn_col=fn_col),
+                           #get_x=partial(get_las_files_and_voxel_kwargs, df=df,
+                           #              bottom_voxels=bottom_voxels, mask_plot=mask_plot),
+                           #get_y=partial(get_y_las, df=df, col=label_col),
+                           get_x=LasColReader(fn_col, pref=pref, suff='.las'),
+                           #get_x= lambda x:([x[fn_col], [x['x'], x['y']]]),
+                           get_y=ColReader(label_col, label_delim=label_delim),
+                           splitter=splitter,
+                           item_tfms=item_tfms,
+                           batch_tfms=batch_tfms)
+        return cls.from_dblock(dblock, df, path=path, **kwargs)
+
+    @classmethod
+    def from_csv(cls, path, csv_fname='labels.csv', header='infer', delimiter=None, **kwargs):
+        df = pd.read_csv(Path(path)/csv_fname, header=header, delimiter=delimiter)
+        return cls.from_df(df, path=path, **kwargs)
+
+VoxelDataLoaders.from_csv = delegates(to=VoxelDataLoaders.from_df)(VoxelDataLoaders.from_csv)
