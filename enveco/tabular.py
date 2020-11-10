@@ -265,11 +265,15 @@ class RegressionInterpretation(Interpretation):
         if log_y:
             self.targs = torch.expm1(self.targs)
             self.preds = torch.expm1(self.preds)
+        if len(self.targs.shape) == 1: self.targs = self.targs[:,None]
         for i, a in enumerate(axs):
             im = a.scatter(self.targs[:,i], self.preds[:,i], c=torch.abs(self.targs[:,i]-self.preds[:,i]))
             a.set_xlabel('Real value')
             a.set_ylabel('Predicted value')
-            a.set_title(self.dl.y_names[i])
+            if hasattr(self.dl, 'y_names'):
+                a.set_title(self.dl.y_names[i])
+            else:
+                a.set_title('Results')
             a.grid()
             x = np.linspace(0, max(self.preds[:,i].max(),self.targs[:,i].max()))
             a.plot(x, x, color='orange')

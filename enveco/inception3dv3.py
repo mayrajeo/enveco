@@ -144,14 +144,14 @@ class Inception3dV3(nn.Module):
         self.Conv3d_2a_3x2x2 = conv_block(32, 32, kernel_size=(3,2,2), stride=(1,1,1)) # valid pad
         self.Conv3d_2b_3x2x2 = conv_block(32, 64, kernel_size=(3,2,2), stride=(1,1,1),
                                           same_padding=True) # same pad
-        #self.maxpool1 = nn.MaxPool3d(kernel_size=(2,1,1), stride=(1,1,1)) # same pad
         self.maxpool1 = PaddedMaxPool3d(kernel_size=(2,1,1), stride=(1,1,1), same_padding=True)
+
         self.Conv3d_3b_1x1x1 = conv_block(64, 80, kernel_size=(1,1,1), stride=(1,1,1),
                                            same_padding=True) # same pad
         self.Conv3d_4a_3x2x2 = conv_block(80, 192, kernel_size=(3,2,2), stride=(1,1,1),
                                           same_padding=True) # same pad
-        #self.maxpool2 = nn.MaxPool3d(kernel_size=(2,2,2), stride=(2,2,2)) # same pad
         self.maxpool2 = PaddedMaxPool3d(kernel_size=(2,2,2), stride=(2,2,2), same_padding=True)
+
         # Inception layers
         self.Mixed_5b = inception_a(192, [64,64,96,32])
         self.Mixed_5c = inception_a(256, [64,64,96,64])
@@ -194,7 +194,6 @@ class Inception3dV3(nn.Module):
         # N x 32 x 50 x 19 x 19
         x = self.Conv3d_2b_3x2x2(x)
         # N x 64 x 50 x 19 x 19
-        #x = F.pad(x, calc_same_padding(x.shape, (2,1,1), (1,1,1))) # maxpool paddings need to have stride 1 to work
         x = self.maxpool1(x) # Same padding
         # N x 64 x 50 x 19 x 19
         x = self.Conv3d_3b_1x1x1(x)
@@ -255,7 +254,7 @@ class Inception3dV3(nn.Module):
         if torch.jit.is_scripting():
             #if not aux_defined:
             #    warnings.warn("Scripted Inception3dV3 always results Inception3dV3 Tuple")
-            return Inception3dV3Outputs(x)#, aux)
+            return x#Inception3dV3Outputs(x)#, aux)
         else:
             return self.eager_outputs(x)#, aux)
 
