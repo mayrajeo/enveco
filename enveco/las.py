@@ -16,7 +16,7 @@ from itertools import product
 
 # Cell
 def plot_point_cloud(lasfile:laspy.file.File) -> plt.Axes:
-    "Return 3d-projection of point cloud in ax"
+    "Return 3d-projection of point cloud"
     points = lasfile.points.copy()
     las_scaleX = lasfile.header.scale[0]
     las_scaleY = lasfile.header.scale[1]
@@ -141,7 +141,7 @@ def calc_point_features(lidar_df:pd.DataFrame, min_h:int=1.5) -> list:
     vege_df = lidar_df[lidar_df.z >= min_h]
     if len(vege_df) == 0: return None
     # Proportion of vegetation points
-    veg = len(vege_df) / len(lidar_df) # proportion of vegetation point
+    veg = len(vege_df) / len(lidar_df)
 
     # Proportion of ground points
     ground = (len(lidar_df)- len(vege_df)) / len(lidar_df)
@@ -310,6 +310,7 @@ class VoxelDataLoaders(DataLoaders):
             is_multi = (is_listy(label_col) and (len_label_col) > 1) or label_delim is not None
             y_block = MultiCategoryBlock if is_multi else CategoryBlock
         splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)
+        # Todo put block_kwargs to a single argument
         block_kwargs = {'bin_voxels':bin_voxels, 'max_h':max_h, 'num_bins':num_bins, 'num_vert_bins': num_vert_bins,
                         'plot_size':plot_size, 'bottom_voxels':bottom_voxels, 'mask_plot':mask_plot}
         dblock = DataBlock(blocks=(VoxelBlock(**block_kwargs), y_block),
