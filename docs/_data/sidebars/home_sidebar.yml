@@ -11,16 +11,25 @@ entries:
       url: /
     - output: web,pdf
       title: Image
-      url: image.html
+      url: data.image.html
     - output: web,pdf
       title: Las
-      url: las.html
+      url: data.las.html
     - output: web,pdf
       title: Tabular model utilities for Enveco
-      url: tabular.html
+      url: tabular.preprocessing.html
     - output: web,pdf
       title: InceptionV3 for 3d data
-      url: inception3dv3.html
+      url: models.inception3dv3.html
+    - output: web,pdf
+      title: Interpretation
+      url: interpretation.html
+    - output: web,pdf
+      title: Metrics
+      url: metrics.html
+    - output: web,pdf
+      title: Ensemble models
+      url: models.ensemble.html
     output: web
     title: enveco
   output: web
