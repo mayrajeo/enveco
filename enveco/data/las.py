@@ -277,12 +277,13 @@ def show_batch(x:VoxelImage, y, samples, ctxs=None, max_n=6, ncols=2, figsize=No
 # Cell
 
 def VoxelBlock(cls=VoxelImage, **kwargs):
+    "Block for `VoxelImage`"
     return TransformBlock(partial(cls.create, **kwargs))
 
 # Cell
 
 class LasColReader(DisplayedTransform):
-    "Modified co"
+    "Modify `ColReader` to return coordinates from dataframe"
     def __init__(self, cols, pref='', suff='.las'):
         store_attr()
         self.pref = str(pref) + os.path.sep if isinstance(pref,Path) else pref
