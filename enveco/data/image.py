@@ -12,7 +12,9 @@ import pandas as pd
 
 # Cell
 def open_geotiff(fn, bands:List[int]=None) -> np.ndarray:
-    "Open geotiff image from path, cast it to float and scale it to 0-1 range, optionally with only `bands` input bands."
+    """Open geotiff image from path, cast it to float and scale it to 0-1 range, optionally with only `bands` input bands."
+    Returns numpy array of shape (C,W,H)
+    """
     with rio.open(str(fn)) as f:
         data = f.read()
         data = data.astype(np.float32)
