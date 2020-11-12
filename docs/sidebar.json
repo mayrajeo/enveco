@@ -1,19 +1,12 @@
 {
   "enveco": {
-    "Overview": "/"
-  },
-  "data": {
+    "Overview": "/",
     "Image": "data.image.html",
     "Las": "data.las.html",
-    "Tabular model utilities for Enveco": "tabular.preprocessing.html"
-  },
-  "models": {
-    "Ensemble models": "models.ensemble.html",
-    "InceptionV3 for 3d data": "models.inception3dv3.html"
-  },
-
-  "common": {
+    "Tabular model utilities for Enveco": "tabular.preprocessing.html",
+    "InceptionV3 for 3d data": "models.inception3dv3.html",
     "Interpretation": "interpretation.html",
-    "Metrics": "metrics.html"
+    "Metrics": "metrics.html",
+    "Ensemble models": "models.ensemble.html"
   }
 }
