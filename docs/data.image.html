@@ -70,7 +70,8 @@ nb_path: "nbs/00_data.image.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="open_geotiff" class="doc_header"><code>open_geotiff</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L14" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>open_geotiff</code>(<strong><code>fn</code></strong>, <strong><code>bands</code></strong>:<code>List</code>[<code>int</code>]=<em><code>None</code></em>)</p>
 </blockquote>
-<p>Open geotiff image from path, cast it to float and scale it to 0-1 range, optionally with only <code>bands</code> input bands.</p>
+<p>Open geotiff image from path, cast it to float and scale it to 0-1 range, optionally with only <code>bands</code> input bands."
+Returns numpy array of shape (C,W,H)</p>
 
 </div>
 
@@ -127,8 +128,7 @@ nb_path: "nbs/00_data.image.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Simple utilities to calculate several spectral indices.</p>
-
+<h1 id="Spectral-indices">Spectral indices<a class="anchor-link" href="#Spectral-indices"> </a></h1>
 </div>
 </div>
 </div>
@@ -143,7 +143,7 @@ nb_path: "nbs/00_data.image.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_normalized_spectral_index" class="doc_header"><code>calc_normalized_spectral_index</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L24" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_normalized_spectral_index</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>band_1</code></strong>:<code>int</code>, <strong><code>band_2</code></strong>:<code>int</code>)</p>
+<h4 id="calc_normalized_spectral_index" class="doc_header"><code>calc_normalized_spectral_index</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L26" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_normalized_spectral_index</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>band_1</code></strong>:<code>int</code>, <strong><code>band_2</code></strong>:<code>int</code>)</p>
 </blockquote>
 <p>Calculate normalized spectral index (band_1 - band_2)/(band_1-band_2). Can be used with NDVI and such simple indices</p>
 
@@ -168,7 +168,7 @@ nb_path: "nbs/00_data.image.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_avi" class="doc_header"><code>calc_avi</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L28" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_avi</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>nir</code></strong>:<code>int</code>, <strong><code>red</code></strong>:<code>int</code>)</p>
+<h4 id="calc_avi" class="doc_header"><code>calc_avi</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L30" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_avi</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>nir</code></strong>:<code>int</code>, <strong><code>red</code></strong>:<code>int</code>)</p>
 </blockquote>
 <p>Calculate AVI (nir <em>(1-red) </em> (nir-red))</p>
 
@@ -193,7 +193,7 @@ nb_path: "nbs/00_data.image.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_savi" class="doc_header"><code>calc_savi</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L32" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_savi</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>nir</code></strong>:<code>int</code>, <strong><code>red</code></strong>:<code>int</code>, <strong><code>l</code></strong>:<code>float</code>=<em><code>0.5</code></em>)</p>
+<h4 id="calc_savi" class="doc_header"><code>calc_savi</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L34" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_savi</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>nir</code></strong>:<code>int</code>, <strong><code>red</code></strong>:<code>int</code>, <strong><code>l</code></strong>:<code>float</code>=<em><code>0.5</code></em>)</p>
 </blockquote>
 <p>Calculate Soil Adjusted Vegetation Index ((nir-red)/(nir+red+l)) * (1+l). Default uses Landsat coefficient L</p>
 
@@ -218,7 +218,7 @@ nb_path: "nbs/00_data.image.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_gci" class="doc_header"><code>calc_gci</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L36" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_gci</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>nir</code></strong>:<code>int</code>, <strong><code>green</code></strong>:<code>int</code>)</p>
+<h4 id="calc_gci" class="doc_header"><code>calc_gci</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L38" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_gci</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>nir</code></strong>:<code>int</code>, <strong><code>green</code></strong>:<code>int</code>)</p>
 </blockquote>
 <p>Calculate Green Clorophyll Index nir/green - 1</p>
 
@@ -241,7 +241,7 @@ nb_path: "nbs/00_data.image.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Show what the different bands and indices look like. Example image is NIR-Red-Green false color image.</p>
+<p>Show what the different bands and indices look like. Example image is NIR-Red-Green false color image, so for instance NDVI is calculated with indices 0 and 2.</p>
 
 </div>
 </div>
@@ -329,7 +329,7 @@ nb_path: "nbs/00_data.image.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Function to mask all pixels from images. Example resolution is ~30cm, so 31 pixel radius more or less corresponds to 9m radius</p>
+<h1 id="Circular-masking">Circular masking<a class="anchor-link" href="#Circular-masking"> </a></h1><p>Function to mask all pixels from images. Example resolution is ~30cm, so 31 pixel radius more or less corresponds to 9m radius</p>
 
 </div>
 </div>
@@ -345,7 +345,7 @@ nb_path: "nbs/00_data.image.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="mask_plot_from_image" class="doc_header"><code>mask_plot_from_image</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L42" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>mask_plot_from_image</code>(<strong><code>data</code></strong>:<code>ndarray</code>, <strong><code>radius</code></strong>:<code>float</code>=<em><code>31</code></em>)</p>
+<h4 id="mask_plot_from_image" class="doc_header"><code>mask_plot_from_image</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L44" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>mask_plot_from_image</code>(<strong><code>data</code></strong>:<code>ndarray</code>, <strong><code>radius</code></strong>:<code>float</code>=<em><code>31</code></em>)</p>
 </blockquote>
 <p>Select only data from within field plot of radius (radius-1) pixels</p>
 
@@ -515,7 +515,7 @@ nb_path: "nbs/00_data.image.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_image_metrics" class="doc_header"><code>calc_image_metrics</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L53" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_image_metrics</code>(<strong><code>image</code></strong>:<code>ndarray</code>)</p>
+<h4 id="calc_image_metrics" class="doc_header"><code>calc_image_metrics</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L55" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_image_metrics</code>(<strong><code>image</code></strong>:<code>ndarray</code>)</p>
 </blockquote>
 <p>Calculate metrics from NIR-red-green -images</p>
 

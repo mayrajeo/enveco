@@ -6,8 +6,8 @@ __all__ = ['get_lidar_feature', 'get_image_procs', 'EnvecoPreprocessor', 'ANNEns
 from fastai.tabular.all import *
 from fastai.data.all import *
 from fastai.vision.data import get_grid
-from ..las import *
-from ..image import *
+from ..data.las import *
+from ..data.image import *
 import matplotlib.patches as mpl_patches
 from typing import Tuple
 from fastai.metrics import *
