@@ -9,6 +9,9 @@ entries:
     - output: web,pdf
       title: Overview
       url: /
+    output: web
+    title: enveco
+  - folderitems:
     - output: web,pdf
       title: Image
       url: data.image.html
@@ -18,19 +21,25 @@ entries:
     - output: web,pdf
       title: Tabular model utilities for Enveco
       url: tabular.preprocessing.html
+    output: web
+    title: data
+  - folderitems:
+    - output: web,pdf
+      title: Ensemble models
+      url: models.ensemble.html
     - output: web,pdf
       title: InceptionV3 for 3d data
       url: models.inception3dv3.html
+    output: web
+    title: models
+  - folderitems:
     - output: web,pdf
       title: Interpretation
       url: interpretation.html
     - output: web,pdf
       title: Metrics
       url: metrics.html
-    - output: web,pdf
-      title: Ensemble models
-      url: models.ensemble.html
     output: web
-    title: enveco
+    title: common
   output: web
   title: Sidebar
