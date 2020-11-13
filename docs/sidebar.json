@@ -8,8 +8,8 @@
     "Tabular model utilities for Enveco": "tabular.preprocessing.html"
   },
   "models": {
-    "Ensemble models": "models.ensemble.html",
-    "InceptionV3 for 3d data": "models.inception3dv3.html"
+    "Ensemble models": "model.ensemble.html",
+    "InceptionV3 for 3d data": "model.inception3dv3.html"
   },
 
   "common": {
