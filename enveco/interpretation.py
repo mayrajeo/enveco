@@ -62,10 +62,10 @@ class RegressionInterpretation(Interpretation):
                 adjusted_r2 = adjusted_R2Score(r2, self.inputs[1].shape[0], self.inputs[1].shape[1])
                 labels.append(f'Adj. R2: {adjusted_r2:.2f}')
 
-            res_bias = bias(self.targs[:,i], self.preds[:,i])
+            res_bias = bias(self.preds[:,i], self.targs[:,i])
             labels.append(f'BIAS: {res_bias:.2f}')
 
-            res_pct_bias = bias_pct(self.targs[:,i], self.preds[:,i])
+            res_pct_bias = bias_pct(self.preds[:,i], self.targs[:,i])
             labels.append(f'BIAS-%: {res_pct_bias:.2f}%')
 
             handles = [mpl_patches.Rectangle((0, 0), 1, 1, fc="white", ec="white",
