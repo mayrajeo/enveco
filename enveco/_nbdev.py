@@ -56,8 +56,7 @@ index = {"open_geotiff": "00_data.image.ipynb",
          "bias.__doc__": "05_metrics.ipynb",
          "bias_pct": "05_metrics.ipynb",
          "bias_pct.__doc__": "05_metrics.ipynb",
-         "Ensemble": "06_models.ensemble.ipynb",
-         "tabular_ensemble": "06_models.ensemble.ipynb"}
+         "Ensemble": "06_models.ensemble.ipynb"}
 
 modules = ["data/image.py",
            "data/las.py",
