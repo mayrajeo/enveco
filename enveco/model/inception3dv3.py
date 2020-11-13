@@ -32,7 +32,7 @@ def inception_learner(dls, loss_func=None, y_range=None, config=None, n_out=None
 # Cell
 
 class BasicConv3d(nn.Module):
-    "Module for Conv3d-BN-relu, with the option for calculating same padding"
+    "Module for Conv3d-BN-relu, with the option for tensorflow-style `same` padding"
     def __init__(
         self,
         in_channels: int,
@@ -59,7 +59,7 @@ class BasicConv3d(nn.Module):
         return F.relu(x, inplace=True)
 
 class PaddedMaxPool3d(nn.Module):
-    "Module for MaxPool3d with optional tensorflow-style 'same'-padding"
+    "Module for MaxPool3d with optional tensorflow-style `same` padding"
 
     def __init__(self, same_padding:bool=False, **kwargs: Any) -> None:
         super(PaddedMaxPool3d, self).__init__()
@@ -76,6 +76,8 @@ class PaddedMaxPool3d(nn.Module):
             x = F.pad(x, self.padding_size)
         x = self.pool(x)
         return x
+
+# Cell
 
 def calc_same_padding(inshape:tuple, kernel:tuple, strides:tuple) -> Tuple[int, int, int]:
     """
@@ -117,7 +119,6 @@ def calc_same_padding(inshape:tuple, kernel:tuple, strides:tuple) -> Tuple[int, 
     pad_bot = pad_along_h - pad_top
     return (pad_left, pad_right, pad_top, pad_bot, pad_front, pad_back)
 
-
 # Cell
 
 Inception3dV3Outputs = namedtuple('Inception3dV3Outputs', ['logits'])
@@ -148,12 +149,6 @@ class Inception3dV3(nn.Module):
         inception_c = inception_blocks[3]
         inception_d = inception_blocks[4]
         inception_e = inception_blocks[5]
-
-        # TODO
-        # Tensorflow has filter args as (depth, height, width, in_channels, out_channels)
-        # Pytorch has in_channels, out_channels, kernel_size (d, h, w)
-        # Consider our input to have shape of N x 1 x 105 x 40 x 40 (channels first)
-        # Ayrey has channels last so invert all shapes there
 
         self.Conv3d_1a_3x2x2 = conv_block(1, 32, kernel_size=(3,2,2), stride=(2,2,2)) # valid pad
         self.Conv3d_2a_3x2x2 = conv_block(32, 32, kernel_size=(3,2,2), stride=(1,1,1)) # valid pad
@@ -288,8 +283,6 @@ class Inception3dA(nn.Module):
             conv_block = BasicConv3d
 
         # Ayreys blocks are on the opposite order compared to torchvision
-        # First bit
-        #self.branch_a_1 = nn.MaxPool3d(kernel_size=(2,2,2), stride=(1,1,1)) # Same pad
         self.branch_a_1 = PaddedMaxPool3d(kernel_size=(2,2,2), stride=(1,1,1), same_padding=True)
         self.branch_a_2 = conv_block(in_channels, outshapes[3], kernel_size=(1,1,1), stride=(1,1,1),
                                      same_padding=True) # Same pad
@@ -336,7 +329,7 @@ class Inception3dA(nn.Module):
 # Cell
 
 class Inception3dB(nn.Module):
-    "Inception_layer2?"
+    "Inception_block 2"
     def __init__(
         self,
         in_channels:int,
@@ -347,7 +340,6 @@ class Inception3dB(nn.Module):
         if conv_block is None:
             conv_block = BasicConv3d
 
-        #self.branch_a_1 = nn.MaxPool3d(kernel_size=(2,2,2), stride=(2,2,2)) # Valid pad
         self.branch_a_1 = PaddedMaxPool3d(kernel_size=(2,2,2), stride=(2,2,2)
                                          )
         self.branch_b_1 = conv_block(in_channels, outshapes[3], kernel_size=(1,1,1), stride=(1,1,1),
@@ -377,6 +369,7 @@ class Inception3dB(nn.Module):
 # Cell
 
 class Inception3dC(nn.Module):
+    "Inception block 3"
     def __init__(
         self,
         in_channels:int,
@@ -388,7 +381,6 @@ class Inception3dC(nn.Module):
         if conv_block is None:
             conv_block = BasicConv3d
 
-       # self.branch_a_1 = nn.MaxPool3d(kernel_size=(2,2,2), stride=(2,2,2)) # Same pad
         self.branch_a_1 = PaddedMaxPool3d(kernel_size=(2,2,2), stride=(1,1,1), same_padding=True)
         self.branch_a_2 = conv_block(in_channels, outshapes[3], kernel_size=(1,1,1), stride=(1,1,1), same_padding=True) # same pad
 
@@ -408,7 +400,6 @@ class Inception3dC(nn.Module):
 
 
     def _forward(self, x:Tensor) -> List[Tensor]:
-        #branch_a = F.pad(x, calc_same_padding(x.shape, (2,2,2), (2,2,2)))
         branch_a = self.branch_a_1(x)
         branch_a = self.branch_a_2(branch_a)
 
@@ -434,6 +425,7 @@ class Inception3dC(nn.Module):
 # Cell
 
 class Inception3dD(nn.Module):
+    "Inception block 4"
     def __init__(
         self,
         in_channels:int,
@@ -444,7 +436,6 @@ class Inception3dD(nn.Module):
         if conv_block is None:
             conv_block = BasicConv3d
 
-        #self.branch_a_1 = nn.MaxPool3d(kernel_size=(2,2,2), stride=(2,2,2)) # Same pad
         self.branch_a_1 = PaddedMaxPool3d(kernel_size=(2,2,2), stride=(2,2,2), same_padding=True)
 
         # all same pad
@@ -458,7 +449,6 @@ class Inception3dD(nn.Module):
         self.branch_c_2 = conv_block(outshapes[1], outshapes[0], kernel_size=(2,2,2), stride=(2,2,2), same_padding=True)
 
     def _forward(self, x:Tensor) -> List[Tensor]:
-        #branch_a = F.pad(x, calc_same_padding(x.shape, (2,2,2), (2,2,2)))
         branch_a = self.branch_a_1(x)
 
         branch_b = self.branch_b_1(x)
@@ -478,6 +468,7 @@ class Inception3dD(nn.Module):
 # Cell
 
 class Inception3dE(nn.Module):
+    "Inception block 5"
     def __init__(
         self,
         in_channels:int,
@@ -487,7 +478,6 @@ class Inception3dE(nn.Module):
         if conv_block is None:
             conv_block = BasicConv3d
 
-        #self.branch_a_1 = nn.MaxPool3d(kernel_size=(2,2,2), stride=(1,1,1)) # Same pad
         self.branch_a_1 = PaddedMaxPool3d(kernel_size=(2,2,2), stride=(1,1,1), same_padding=True)
         self.branch_a_2 = conv_block(in_channels, 192, kernel_size=(1,1,1), stride=(1,1,1), same_padding=True)
 
@@ -505,7 +495,6 @@ class Inception3dE(nn.Module):
         self.branch_d_1 = conv_block(in_channels, 320, kernel_size=(1,1,1), stride=(1,1,1), same_padding=True)
 
     def _forward(self, x:Tensor) -> List[Tensor]:
-        #branch_a = F.pad(x, calc_same_padding(x.shape, (2,2,2), (1,1,1)))
         branch_a = self.branch_a_1(x)
         branch_a = self.branch_a_2(branch_a)
 

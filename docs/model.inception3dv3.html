@@ -65,29 +65,6 @@ nb_path: "nbs/03_model.inception3dv3.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-01ec4e857016&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg">#export</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span> 
-<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg"> </span><span class="ansi-blue-fg">@</span>log_args<span class="ansi-blue-fg">(</span>to_return<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> but_as<span class="ansi-blue-fg">=</span>Learner<span class="ansi-blue-fg">.</span>__init<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-blue-fg">@</span>delegates<span class="ansi-blue-fg">(</span>Learner<span class="ansi-blue-fg">.</span>__init__<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-green-fg">def</span> inception_learner<span class="ansi-blue-fg">(</span>dls<span class="ansi-blue-fg">,</span> loss_func<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> y_range<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> config<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> n_out<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-red-fg">NameError</span>: name &#39;log_args&#39; is not defined</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -110,7 +87,7 @@ nb_path: "nbs/03_model.inception3dv3.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="BasicConv3d" class="doc_header"><code>class</code> <code>BasicConv3d</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L34" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BasicConv3d</code>(<strong><code>in_channels</code></strong>:<code>int</code>, <strong><code>out_channels</code></strong>:<code>int</code>, <strong><code>bias</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>same_padding</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>:<code>Any</code>) :: <code>Module</code></p>
 </blockquote>
-<p>Module for Conv3d-BN-relu, with the option for calculating same padding</p>
+<p>Module for Conv3d-BN-relu, with the option for tensorflow-style <code>same</code> padding</p>
 
 </div>
 
@@ -135,7 +112,7 @@ nb_path: "nbs/03_model.inception3dv3.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="PaddedMaxPool3d" class="doc_header"><code>class</code> <code>PaddedMaxPool3d</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L61" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>PaddedMaxPool3d</code>(<strong><code>same_padding</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>:<code>Any</code>) :: <code>Module</code></p>
 </blockquote>
-<p>Module for MaxPool3d with optional tensorflow-style 'same'-padding</p>
+<p>Module for MaxPool3d with optional tensorflow-style <code>same</code> padding</p>
 
 </div>
 
@@ -151,6 +128,13 @@ nb_path: "nbs/03_model.inception3dv3.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
 <div class="output_wrapper">
 <div class="output">
 
@@ -158,7 +142,7 @@ nb_path: "nbs/03_model.inception3dv3.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_same_padding" class="doc_header"><code>calc_same_padding</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L80" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_same_padding</code>(<strong><code>inshape</code></strong>:<code>tuple</code>, <strong><code>kernel</code></strong>:<code>tuple</code>, <strong><code>strides</code></strong>:<code>tuple</code>)</p>
+<h4 id="calc_same_padding" class="doc_header"><code>calc_same_padding</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L82" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_same_padding</code>(<strong><code>inshape</code></strong>:<code>tuple</code>, <strong><code>kernel</code></strong>:<code>tuple</code>, <strong><code>strides</code></strong>:<code>tuple</code>)</p>
 </blockquote>
 <p>Calculate layer sizes similarly to tensorflow padding='same' for 3d data.
 [left, right, top, bot, front, back] is the order for F.pad.
@@ -183,7 +167,7 @@ Has some kind of performance penalty.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="InceptionModel">InceptionModel<a class="anchor-link" href="#InceptionModel"> </a></h2><p>Inception model fom <a href="https://www.mdpi.com/2072-4292/10/4/649">The Use of Three-Dimensional Convolutional Neural Networks to Interpret LiDAR for Forest Inventory</a>, refactored from original tensorflow implementation.</p>
+<h2 id="InceptionModel">InceptionModel<a class="anchor-link" href="#InceptionModel"> </a></h2><p>Inception model fom <a href="https://www.mdpi.com/2072-4292/10/4/649">The Use of Three-Dimensional Convolutional Neural Networks to Interpret LiDAR for Forest Inventory</a>, refactored from original tensorflow implementation. Hardcoded to work with input shape 1x105x40x40.</p>
 
 </div>
 </div>
@@ -199,7 +183,7 @@ Has some kind of performance penalty.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Inception3dV3" class="doc_header"><code>class</code> <code>Inception3dV3</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L126" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Inception3dV3</code>(<strong><code>num_classes</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>inception_blocks</code></strong>:<code>Optional</code>[<code>List</code>[<code>Callable</code>[<code>Ellipsis</code>, <code>Module</code>]]]=<em><code>None</code></em>, <strong><code>init_weights</code></strong>:<code>Optional</code>[<code>bool</code>]=<em><code>None</code></em>) :: <code>Module</code></p>
+<h2 id="Inception3dV3" class="doc_header"><code>class</code> <code>Inception3dV3</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L127" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Inception3dV3</code>(<strong><code>num_classes</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>inception_blocks</code></strong>:<code>Optional</code>[<code>List</code>[<code>Callable</code>[<code>Ellipsis</code>, <code>Module</code>]]]=<em><code>None</code></em>, <strong><code>init_weights</code></strong>:<code>Optional</code>[<code>bool</code>]=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>InceptionV3 for volumetric data with dimensions of 1x105x40x40</p>
 
@@ -237,7 +221,7 @@ Has some kind of performance penalty.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Inception3dA" class="doc_header"><code>class</code> <code>Inception3dA</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L278" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Inception3dA</code>(<strong><code>in_channels</code></strong>:<code>int</code>, <strong><code>outshapes</code></strong>:<code>int</code>, <strong><code>conv_block</code></strong>:<code>Optional</code>[<code>Callable</code>[<code>Ellipsis</code>, <code>Module</code>]]=<em><code>None</code></em>) :: <code>Module</code></p>
+<h2 id="Inception3dA" class="doc_header"><code>class</code> <code>Inception3dA</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L273" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Inception3dA</code>(<strong><code>in_channels</code></strong>:<code>int</code>, <strong><code>outshapes</code></strong>:<code>int</code>, <strong><code>conv_block</code></strong>:<code>Optional</code>[<code>Callable</code>[<code>Ellipsis</code>, <code>Module</code>]]=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>First Inception block</p>
 
@@ -275,9 +259,9 @@ Has some kind of performance penalty.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Inception3dB" class="doc_header"><code>class</code> <code>Inception3dB</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L338" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Inception3dB</code>(<strong><code>in_channels</code></strong>:<code>int</code>, <strong><code>outshapes</code></strong>:<code>List</code>[<code>int</code>], <strong><code>conv_block</code></strong>:<code>Optional</code>[<code>Callable</code>[<code>Ellipsis</code>, <code>Module</code>]]=<em><code>None</code></em>) :: <code>Module</code></p>
+<h2 id="Inception3dB" class="doc_header"><code>class</code> <code>Inception3dB</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L331" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Inception3dB</code>(<strong><code>in_channels</code></strong>:<code>int</code>, <strong><code>outshapes</code></strong>:<code>List</code>[<code>int</code>], <strong><code>conv_block</code></strong>:<code>Optional</code>[<code>Callable</code>[<code>Ellipsis</code>, <code>Module</code>]]=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
-<p>Inception_layer2?</p>
+<p>Inception_block 2</p>
 
 </div>
 
@@ -313,29 +297,9 @@ Has some kind of performance penalty.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Inception3dC" class="doc_header"><code>class</code> <code>Inception3dC</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L379" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Inception3dC</code>(<strong><code>in_channels</code></strong>:<code>int</code>, <strong><code>outshapes</code></strong>:<code>List</code>[<code>int</code>], <strong><code>pool</code></strong>:<code>int</code>, <strong><code>conv_block</code></strong>:<code>Optional</code>[<code>Callable</code>[<code>Ellipsis</code>, <code>Module</code>]]=<em><code>None</code></em>) :: <code>Module</code></p>
+<h2 id="Inception3dC" class="doc_header"><code>class</code> <code>Inception3dC</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L371" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Inception3dC</code>(<strong><code>in_channels</code></strong>:<code>int</code>, <strong><code>outshapes</code></strong>:<code>List</code>[<code>int</code>], <strong><code>pool</code></strong>:<code>int</code>, <strong><code>conv_block</code></strong>:<code>Optional</code>[<code>Callable</code>[<code>Ellipsis</code>, <code>Module</code>]]=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
-
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
-
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
-
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
-
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
+<p>Inception block 3</p>
 
 </div>
 
@@ -371,29 +335,9 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Inception3dD" class="doc_header"><code>class</code> <code>Inception3dD</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L436" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Inception3dD</code>(<strong><code>in_channels</code></strong>:<code>int</code>, <strong><code>outshapes</code></strong>:<code>List</code>[<code>int</code>]=<em><code>None</code></em>, <strong><code>conv_block</code></strong>:<code>Optional</code>[<code>Callable</code>[<code>Ellipsis</code>, <code>Module</code>]]=<em><code>None</code></em>) :: <code>Module</code></p>
+<h2 id="Inception3dD" class="doc_header"><code>class</code> <code>Inception3dD</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L427" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Inception3dD</code>(<strong><code>in_channels</code></strong>:<code>int</code>, <strong><code>outshapes</code></strong>:<code>List</code>[<code>int</code>]=<em><code>None</code></em>, <strong><code>conv_block</code></strong>:<code>Optional</code>[<code>Callable</code>[<code>Ellipsis</code>, <code>Module</code>]]=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
-
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
-
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
-
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
-
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
+<p>Inception block 4</p>
 
 </div>
 
@@ -429,29 +373,9 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Inception3dE" class="doc_header"><code>class</code> <code>Inception3dE</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L480" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Inception3dE</code>(<strong><code>in_channels</code></strong>:<code>int</code>, <strong><code>conv_block</code></strong>:<code>Optional</code>[<code>Callable</code>[<code>Ellipsis</code>, <code>Module</code>]]=<em><code>None</code></em>) :: <code>Module</code></p>
+<h2 id="Inception3dE" class="doc_header"><code>class</code> <code>Inception3dE</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/inception3dv3.py#L470" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Inception3dE</code>(<strong><code>in_channels</code></strong>:<code>int</code>, <strong><code>conv_block</code></strong>:<code>Optional</code>[<code>Callable</code>[<code>Ellipsis</code>, <code>Module</code>]]=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
-
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
-
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
-
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
-
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
+<p>Inception block 5</p>
 
 </div>
 
