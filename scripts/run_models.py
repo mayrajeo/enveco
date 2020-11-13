@@ -20,7 +20,7 @@ def run_models():
                                       data_path/'AV.leaf.on.test.csv')
     for t in target_variables:
         if not os.path.exists(f'results/{t}'): os.makedirs(f'results/{t}')
-        trainval_tb, test_tb = preprocessor.preprocess_lidar(target_col='v', path=data_path/'AV_las/', 
+        trainval_tb, test_tb = preprocessor.preprocess_lidar(target_col=t, path=data_path/'AV_las/', 
                                                              min_h=1.5,
                                                              height_features=True,
                                                              point_features=True, 
