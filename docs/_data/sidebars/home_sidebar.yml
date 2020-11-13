@@ -26,10 +26,10 @@ entries:
   - folderitems:
     - output: web,pdf
       title: Ensemble models
-      url: models.ensemble.html
+      url: model.ensemble.html
     - output: web,pdf
       title: InceptionV3 for 3d data
-      url: models.inception3dv3.html
+      url: model.inception3dv3.html
     output: web
     title: models
   - folderitems:

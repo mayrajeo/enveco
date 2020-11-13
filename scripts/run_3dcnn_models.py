@@ -26,9 +26,9 @@ def run_models(basedir, train_csv, valid_csv, test_csv, outdir):
         # No voxel processing
         if not os.path.exists(f'{outdir}/{t}'): os.makedirs(f'{outdir}/{t}')
         dls = VoxelDataLoaders.from_df(df, path=basedir, folder='AV_las', 
-                                       bin_voxels=True,
+                                       bin_voxels=False,
                                        bottom_voxels=False,
-                                       mask_plot=True,
+                                       mask_plot=False,
                                        y_block=RegressionBlock(),
                                        label_col=t,
                                        fn_col='sampleplitid', bs=32
@@ -56,6 +56,8 @@ def run_models(basedir, train_csv, valid_csv, test_csv, outdir):
         test_interp = RegressionInterpretation.from_ensemble(ens, dl=test_dl)
         fig = test_interp.plot_results()
         for f in fig: f.get_figure().savefig(f'{outdir}/{t}/inception_test.png', dpi=300, bbox_inches='tight')
+
+        
 
 if __name__ == '__main__':
     run_3dcnn_models()
