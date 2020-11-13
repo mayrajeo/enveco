@@ -19,7 +19,7 @@ def run_models():
                                       data_path/'AV.leaf.on.val.csv',
                                       data_path/'AV.leaf.on.test.csv')
     for t in target_variables:
-        if not os.path.exists(t): os.makedirs(t)
+        if not os.path.exists(f'results/{t}'): os.makedirs(f'results/{t}')
         trainval_tb, test_tb = preprocessor.preprocess_lidar(target_col='v', path=data_path/'AV_las/', 
                                                              min_h=1.5,
                                                              height_features=True,
@@ -42,28 +42,28 @@ def run_models():
         ensemble.fit_one_cycle(20, 1e-2)
 
         val_res = ensemble.validate()
-        val_res.to_csv(f'{t}/ann_val.csv', float_format='%.4f')
+        val_res.to_csv(f'results/{t}/ann_val.csv', float_format='%.4f')
         val_interp = RegressionInterpretation.from_ensemble(ensemble)
 
         fig = val_interp.plot_results()
-        for f in fig: f.get_figure().savefig(f'{t}/ann_val.png', dpi=300, bbox_inches='tight')
+        for f in fig: f.get_figure().savefig(f'results/{t}/ann_val.png', dpi=300, bbox_inches='tight')
 
         test_dls = test_tb.dataloaders(y_block=RegressionBlock(), shuffle_train=False, drop_last=False)
         test_res = ensemble.validate(dl=test_dls[0])
-        test_res.to_csv(f'{t}/ann_test.csv', float_format='%.4f')
+        test_res.to_csv(f'results/{t}/ann_test.csv', float_format='%.4f')
         test_interp =  RegressionInterpretation.from_ensemble(ensemble, dl=test_dls[0])
         
         fig = test_interp.plot_results()
-        for f in fig: f.get_figure().savefig(f'{t}/ann_test.png', dpi=300, bbox_inches='tight')
+        for f in fig: f.get_figure().savefig(f'results/{t}/ann_test.png', dpi=300, bbox_inches='tight')
 
 
         rf = RandomForestRegressor(n_estimators=500, max_features=0.5, min_samples_leaf=4, oob_score=True)
         rf.fit(trainval_tb.train.xs, trainval_tb.train.ys.values.ravel())
         fig = plot_sklearn_regression(rf, trainval_tb.valid.xs, trainval_tb.valid.ys)
-        for f in fig: f.get_figure().savefig(f'{t}/rf_val.png', dpi=300, bbox_inches='tight')
+        for f in fig: f.get_figure().savefig(f'results/{t}/rf_val.png', dpi=300, bbox_inches='tight')
 
-        fig = plot_sklearn_regression(rf, test_tb.train.xs, test_tb-train.ys)
-        for f in fig: f.get_figure().savefig(f'{t}/rf_test.png', dpi=300, bbox_inches='tight')
+        fig = plot_sklearn_regression(rf, test_tb.train.xs, test_tb.train.ys)
+        for f in fig: f.get_figure().savefig(f'results/{t}/rf_test.png', dpi=300, bbox_inches='tight')
 
 
 
