@@ -7,7 +7,7 @@
     "Las": "data.las.html",
     "Tabular model utilities for Enveco": "tabular.preprocessing.html"
   },
-  "models": {
+  "model": {
     "Ensemble models": "model.ensemble.html",
     "InceptionV3 for 3d data": "model.inception3dv3.html"
   },

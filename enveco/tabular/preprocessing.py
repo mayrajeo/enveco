@@ -120,10 +120,6 @@ class EnvecoPreprocessor():
 
         means = []
         stds = []
-        #for c in feature_cols:
-        #    means.append(trainval[trainval.is_valid==0][c].mean())
-        #    stds.append(trainval[trainval.is_valid==0][c].std())
-        #norm_stats = np.array((means,stds))
         procs = None
         if normalize:
             procs = [Normalize]#.from_stats(*norm_stats)]
@@ -139,8 +135,8 @@ class EnvecoPreprocessor():
         # TODO
         pass
 
-    def preprocess_lidar_and_image(self, target_col, path, min_h:float=1.5, radius:int=31,
-                                   mask_plot:bool=True) -> Tuple[TabularPandas, TabularPandas]:
+    def preprocess(self, target_col, path, lidar:bool=True, image:bool=True, min_h:float=1.5, radius:int=31,
+                   mask_plot:bool=True) -> Tuple[TabularPandas, TabularPandas]:
         "Preprocess dataframes and return (train_val, test) -tuple"
         # TODO
         pass
