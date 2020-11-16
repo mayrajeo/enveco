@@ -32,6 +32,9 @@ def get_image_procs(row, path, radius=31, mask_plot=True):
 
 # Cell
 
+from tqdm import tqdm
+tqdm.pandas()
+
 class EnvecoPreprocessor():
 
     def __init__(self, train_path, valid_path, test_path, **kwargs):
@@ -53,73 +56,15 @@ class EnvecoPreprocessor():
         "Preprocess data and return (train_val, test) -tuple. Optionally log-transform target column with np.log1p"
         trainval = self.train_val_df.copy()
         test = self.test_df.copy()
-        feature_cols = []
-        if height_features:
-            print('Adding height based features')
-            trainval[height_cols] = trainval.apply(lambda row: get_lidar_feature(row, path, calc_height_features,
-                                                                                 min_h, mask_plot),
-                                                   axis=1, result_type='expand')
-            test[height_cols] = test.apply(lambda row: get_lidar_feature(row, path, calc_height_features,
-                                                                         min_h, mask_plot),
-                                           axis=1, result_type='expand')
-            feature_cols.extend(height_cols)
-
-        if point_features:
-            print('Adding point distribution based features')
-            trainval[point_cols] = trainval.apply(lambda row: get_lidar_feature(row, path, calc_point_features,
-                                                                                min_h, mask_plot),
-                                                   axis=1, result_type='expand')
-            test[point_cols] = test.apply(lambda row: get_lidar_feature(row, path, calc_point_features,
-                                                                                 min_h, mask_plot),
-                                           axis=1, result_type='expand')
-            feature_cols.extend(point_cols)
-
-        if intensity_features:
-            print('Adding intensity based features')
-            trainval[intensity_cols] = trainval.apply(lambda row: get_lidar_feature(row, path, calc_intensity_features,
-                                                                                    min_h, mask_plot),
-                                                   axis=1, result_type='expand')
-            test[intensity_cols] = test.apply(lambda row: get_lidar_feature(row, path, calc_intensity_features,
-                                                                            min_h, mask_plot),
-                                              axis=1, result_type='expand')
-            feature_cols.extend(intensity_cols)
-
-        if height_quantiles:
-            print('Adding height quantiles')
-            trainval[quantile_cols] = trainval.apply(lambda row: get_lidar_feature(row, path, calc_height_quantiles,
-                                                                                  min_h, mask_plot),
-                                                   axis=1, result_type='expand')
-            test[quantile_cols] = test.apply(lambda row: get_lidar_feature(row, path, calc_height_quantiles,
-                                                                           min_h, mask_plot),
-                                             axis=1, result_type='expand')
-            feature_cols.extend(quantile_cols)
-
-        if point_proportions:
-            print('Adding point proportions')
-            trainval[proportion_cols] = trainval.apply(lambda row: get_lidar_feature(row, path, calc_point_proportions,
-                                                                                    min_h, mask_plot),
-                                                       axis=1, result_type='expand')
-            test[proportion_cols] = test.apply(lambda row: get_lidar_feature(row, path, calc_point_proportions,
-                                                                                 min_h, mask_plot),
-                                               axis=1, result_type='expand')
-            feature_cols.extend(proportion_cols)
-
-        if canopy_densities:
-            print('Adding canopy densities')
-            trainval[density_cols] = trainval.apply(lambda row: get_lidar_feature(row, path, calc_canopy_densities,
-                                                                                    min_h, mask_plot),
-                                                       axis=1, result_type='expand')
-            test[density_cols] = test.apply(lambda row: get_lidar_feature(row, path, calc_canopy_densities,
-                                                                                 min_h, mask_plot),
-                                               axis=1, result_type='expand')
-            feature_cols.extend(density_cols)
-
-        if log_y:
-            trainval[target_col] = np.log1p(trainval[target_col])
-            test[target_col] = np.log1p(test[target_col])
-
-        means = []
-        stds = []
+        feature_cols = point_cloud_metric_cols
+        trainval[point_cloud_metric_cols] = trainval.progress_apply(lambda row: point_cloud_metrics(f'{path}/{row.sampleplotid}.las',
+                                                                                                    row.x, row.y,
+                                                                                                    min_h, mask_plot),
+                                                                    axis=1, result_type='expand')
+        test[point_cloud_metric_cols] = test.progress_apply(lambda row: point_cloud_metrics(f'{path}/{row.sampleplotid}.las',
+                                                                                            row.x, row.y,
+                                                                                            min_h, mask_plot),
+                                                            axis=1, result_type='expand')
         procs = None
         if normalize:
             procs = [Normalize]#.from_stats(*norm_stats)]

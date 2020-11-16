@@ -31,7 +31,7 @@ entries:
       title: InceptionV3 for 3d data
       url: model.inception3dv3.html
     output: web
-    title: models
+    title: model
   - folderitems:
     - output: web,pdf
       title: Interpretation
