@@ -47,7 +47,7 @@ nb_path: "nbs/00_data.image.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="open_geotiff" class="doc_header"><code>open_geotiff</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L14" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>open_geotiff</code>(<strong><code>fn</code></strong>, <strong><code>bands</code></strong>:<code>List</code>[<code>int</code>]=<em><code>None</code></em>)</p>
+<h4 id="open_geotiff" class="doc_header"><code>open_geotiff</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L15" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>open_geotiff</code>(<strong><code>fn</code></strong>, <strong><code>bands</code></strong>:<code>List</code>[<code>int</code>]=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Open geotiff image from path, cast it to float and scale it to 0-1 range, optionally with only <code>bands</code> input bands."
 Returns numpy array of shape (C,W,H)</p>
@@ -122,7 +122,7 @@ Returns numpy array of shape (C,W,H)</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_normalized_spectral_index" class="doc_header"><code>calc_normalized_spectral_index</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L26" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_normalized_spectral_index</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>band_1</code></strong>:<code>int</code>, <strong><code>band_2</code></strong>:<code>int</code>)</p>
+<h4 id="calc_normalized_spectral_index" class="doc_header"><code>calc_normalized_spectral_index</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L27" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_normalized_spectral_index</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>band_1</code></strong>:<code>int</code>, <strong><code>band_2</code></strong>:<code>int</code>)</p>
 </blockquote>
 <p>Calculate normalized spectral index (band_1 - band_2)/(band_1-band_2). Can be used with NDVI and such simple indices</p>
 
@@ -147,7 +147,7 @@ Returns numpy array of shape (C,W,H)</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_avi" class="doc_header"><code>calc_avi</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L30" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_avi</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>nir</code></strong>:<code>int</code>, <strong><code>red</code></strong>:<code>int</code>)</p>
+<h4 id="calc_avi" class="doc_header"><code>calc_avi</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L31" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_avi</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>nir</code></strong>:<code>int</code>, <strong><code>red</code></strong>:<code>int</code>)</p>
 </blockquote>
 <p>Calculate AVI (nir <em>(1-red) </em> (nir-red))</p>
 
@@ -172,7 +172,7 @@ Returns numpy array of shape (C,W,H)</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_savi" class="doc_header"><code>calc_savi</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L34" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_savi</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>nir</code></strong>:<code>int</code>, <strong><code>red</code></strong>:<code>int</code>, <strong><code>l</code></strong>:<code>float</code>=<em><code>0.5</code></em>)</p>
+<h4 id="calc_savi" class="doc_header"><code>calc_savi</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L35" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_savi</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>nir</code></strong>:<code>int</code>, <strong><code>red</code></strong>:<code>int</code>, <strong><code>l</code></strong>:<code>float</code>=<em><code>0.5</code></em>)</p>
 </blockquote>
 <p>Calculate Soil Adjusted Vegetation Index ((nir-red)/(nir+red+l)) * (1+l). Default uses Landsat coefficient L</p>
 
@@ -197,7 +197,7 @@ Returns numpy array of shape (C,W,H)</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_gci" class="doc_header"><code>calc_gci</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L38" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_gci</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>nir</code></strong>:<code>int</code>, <strong><code>green</code></strong>:<code>int</code>)</p>
+<h4 id="calc_gci" class="doc_header"><code>calc_gci</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L39" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_gci</code>(<strong><code>im</code></strong>:<code>ndarray</code>, <strong><code>nir</code></strong>:<code>int</code>, <strong><code>green</code></strong>:<code>int</code>)</p>
 </blockquote>
 <p>Calculate Green Clorophyll Index nir/green - 1</p>
 
@@ -214,6 +214,47 @@ Returns numpy array of shape (C,W,H)</p>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It's possible to add indices with <code>np.vstack</code></p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tiffile_ndvi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">tiffile</span><span class="p">,</span> <span class="n">calc_normalized_spectral_index</span><span class="p">(</span><span class="n">tiffile</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[</span><span class="kc">None</span><span class="p">]))</span>
+<span class="n">tiffile_ndvi</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(4, 61, 61)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
 
 </div>
     {% endraw %}
@@ -324,7 +365,7 @@ Returns numpy array of shape (C,W,H)</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="mask_plot_from_image" class="doc_header"><code>mask_plot_from_image</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L44" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>mask_plot_from_image</code>(<strong><code>data</code></strong>:<code>ndarray</code>, <strong><code>radius</code></strong>:<code>float</code>=<em><code>31</code></em>)</p>
+<h4 id="mask_plot_from_image" class="doc_header"><code>mask_plot_from_image</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L45" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>mask_plot_from_image</code>(<strong><code>data</code></strong>:<code>ndarray</code>, <strong><code>radius</code></strong>:<code>float</code>=<em><code>31</code></em>)</p>
 </blockquote>
 <p>Select only data from within field plot of radius (radius-1) pixels</p>
 
@@ -478,7 +519,26 @@ Returns numpy array of shape (C,W,H)</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Todo improvements.</p>
+<p>Tuominen et al (2016), extract the following features</p>
+<ol>
+<li>Spectral averages of orthoimage pixel values</li>
+<li>Standard deviations of orthoimage pixel values</li>
+<li>Textural features based on co-occurrence matrices of orthoimage pixel values of NIR, R, G &amp; H<ol>
+<li>Sum Average</li>
+<li>Entropy </li>
+<li>Difference Entropy</li>
+<li>Sum Entropy</li>
+<li>Variance</li>
+<li>Difference Variance</li>
+<li>Sum Variance</li>
+<li>Angular Second Moment (Uniformity)</li>
+<li>Inverse Difference Moment (Homogeneity)</li>
+<li>Contrast</li>
+<li>Correlation</li>
+<li>Information Measures of Correlation (E.g. COR_R = correlation of red channel)</li>
+</ol>
+</li>
+</ol>
 
 </div>
 </div>
@@ -494,7 +554,81 @@ Returns numpy array of shape (C,W,H)</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="calc_image_metrics" class="doc_header"><code>calc_image_metrics</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L55" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_image_metrics</code>(<strong><code>image</code></strong>:<code>ndarray</code>)</p>
+<h4 id="calc_band_features" class="doc_header"><code>calc_band_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L56" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_band_features</code>(<strong><code>image</code></strong>:<code>ndarray</code>, <strong><code>band_idx</code></strong>:<code>int</code>=<em><code>0</code></em>)</p>
+</blockquote>
+<p>Get basic features from a single input band: Max, min, mean, std and coefficient of variation</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="get_band_feature_cols" class="doc_header"><code>get_band_feature_cols</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L65" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_band_feature_cols</code>(<strong><code>band_name</code></strong>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">calc_band_features</span><span class="p">(</span><span class="n">tiffile</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="nb">len</span><span class="p">(</span><span class="n">get_band_feature_cols</span><span class="p">(</span><span class="s1">&#39;nir&#39;</span><span class="p">))</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">calc_band_features</span><span class="p">(</span><span class="n">calc_normalized_spectral_index</span><span class="p">(</span><span class="n">tiffile</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">))),</span> <span class="nb">len</span><span class="p">(</span><span class="n">get_band_feature_cols</span><span class="p">(</span><span class="s1">&#39;ndvi&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="calc_image_metrics" class="doc_header"><code>calc_image_metrics</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L71" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>calc_image_metrics</code>(<strong><code>image</code></strong>:<code>ndarray</code>)</p>
 </blockquote>
 <p>Calculate metrics from NIR-red-green -images</p>
 
