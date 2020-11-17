@@ -46,6 +46,7 @@ From: nvidia/cuda
     conda install -c conda-forge jupyter_contrib_nbextensions
     pip install opencv-python scikit-image albumentations nbdev pyarrow wandb tensorboard captum laspy
     pip install shap fastinference fastinference[interp]
+    pip install xlrd
     
     # Test that libraries (read: gdal) work
     gdal_translate --version

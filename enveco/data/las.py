@@ -81,9 +81,11 @@ def las_to_df(fn:str) -> pd.DataFrame:
     lasfile.close()
     return lidar_df
 
-def mask_plot_from_lidar(lidar_df:pd.DataFrame, plot_x:float, plot_y:float, radius:float=9) -> pd.DataFrame:
+def mask_plot_from_lidar(lidar_df:pd.DataFrame, plot_x:float=None, plot_y:float=None, radius:float=9) -> pd.DataFrame:
     "Select only the circular field plot area as used lidar data, center point of plot is <plot_x, plot_y>"
-    lidar_df = lidar_df[lidar_df.apply(lambda row:np.linalg.norm(np.array([row.x, row.y]).T - np.array([plot_x, plot_y]).T) <= 9, axis=1)]
+    if plot_x is None: plot_x = (lidar_df.x.max() - lidar_df.x.min()) / 2 + lidar_df.x.min()
+    if plot_y is None: plot_y = (lidar_df.y.max() - lidar_df.y.min()) / 2 + lidar_df.y.min()
+    lidar_df = lidar_df[lidar_df.apply(lambda row:np.linalg.norm(np.array([row.x, row.y]).T - np.array([plot_x, plot_y]).T) <= radius, axis=1)]
     return lidar_df
 
 # Cell
@@ -191,46 +193,50 @@ density_cols = [f'D{int(q):02d}' for q in np.linspace(0,90,10)]
 
 # Cell
 
-def point_cloud_metrics(fn:str, plot_x:float, plot_y:float, mask_plot:bool=True, min_h:float=1.5):
+def point_cloud_metrics(fn:str, plot_x:float=None, plot_y:float=None, mask_plot:bool=True, min_h:float=1.5,
+                        radius=9):
     """
-    Open .las-file, and calculate `stdmetrics` from lidR-package. The following features are calculated:
-        * `n`: number of points
-        * `area`: approximate area (X_max - X_min) x (Y_max - Y_min)
-        * `angle`: average absolute scan angle
-        * `zmax`: maximum height
-        * `zmean`: mean height
-        * `zsd`: standard deviation of height distribution
-        * `zskew`: skewness of height distribution
-        * `zkurt`: kurtosis of height distribution
-        * `zentropy`: entropy of height distribution
-        * `pzabovezmean`: percentage of returns above `zmean`
-        * `pzabovex`: percentage of returrns above x
-        * `zqx`: xth percentile of height distribution
-        * `zpcumx`: cumulative percentage of return in the xth layer
-        * `itot`: sum of intensities for each return
-        * `imax`: maximum intensity
-        * `imean`: mean intensity
-        * `isd`: standard deviation of intensity
-        * `iskew`: skewness of intensity distribution
-        * `ikurt`: kurtosis of intensity distribution
-        * `ipcumzqx`: percentage of intensity returned below the xth percentile of height
+    Open .las-file, and calculate stdmetrics from lidR-package. If `plot_x` or `plot_y` are None,
+    plot center is calculated to be at the center of the point cloud.
+
+    The following features are calculated:
+      * `n`: number of points
+      * `angle`: average absolute scan angle
+      * `zmax`: maximum height
+      * `zmean`: mean height
+      * `zsd`: standard deviation of height distribution
+      * `zskew`: skewness of height distribution
+      * `zkurt`: kurtosis of height distribution
+      * `zentropy`: entropy of height distribution
+      * `pzabovezmean`: percentage of returns above zmean
+      * `pzabovex`: percentage of returrns above x
+      * `zqx`: xth percentile of height distribution
+      * `zpcumx`: cumulative percentage of return in the xth layer
+      * `itot`: sum of intensities for each return
+      * `imax`: maximum intensity
+      * `imean`: mean intensity
+      * `isd`: standard deviation of intensity
+      * `iskew`: skewness of intensity distribution
+      * `ikurt`: kurtosis of intensity distribution
+      * `ipcumzqx`: percentage of intensity returned below the xth percentile of height
 
     Additionally, calculate the following:
-        * `veg` proportion of vegetation points (points above min_h)
-        * `veg_ground_ratio`: proportion of vegetation points and ground points
-        * `Dx`, where `Dx` is the proportion of points in the interval [level_x, level_(x+1)]
+      * `veg` proportion of vegetation points (points above min_h)
+      * `veg_ground_ratio`: proportion of vegetation points and ground points
+      * `Dx`, where `Dx` is the proportion of points in the interval [level_x, level_(x+1)]
 
-    With `min_h = 0` works identically to stdmetrics
+    With `min_h=0` works almost identically to stdmetrics.
     """
     lasfile = las_to_df(fn)
-    if mask_plot: lasfile = mask_plot_from_lidar(lasfile, plot_x=plot_x, plot_y=plot_y)
+    if mask_plot: lasfile = mask_plot_from_lidar(lasfile, radius=radius)#, plot_x=plot_x, plot_y=plot_y)
     n = len(lasfile)
-    area = (lasfile.x.max() - lasfile.x.min()) * (lasfile.y.max() - lasfile.y.min())
+    # area is excluded because all of our plots have the same radius
+    #area = (lasfile.x.max() - lasfile.x.min()) * (lasfile.y.max() - lasfile.y.min())
     angle = np.nanmean(np.abs(lasfile.scan_angle_rank))
-    return ([n, area, angle] + height_metrics(lasfile, min_h) + intensity_metrics(lasfile, min_h)
+    return ([n, angle] + height_metrics(lasfile, min_h) + intensity_metrics(lasfile, min_h)
             + class_metrics(lasfile, min_h) + density_metrics(lasfile, min_h))
 
-point_cloud_metric_cols = ['n', 'area', 'angle'] + z_cols + i_cols + class_cols + density_cols
+point_cloud_metric_cols = ['n', 'angle'] + z_cols + i_cols + class_cols + density_cols
 
 # Cell
 from fastai.basics import *
@@ -260,28 +266,30 @@ class VoxelImage(TensorImage):
         if isinstance(fn, ndarray):
             im = torch.from_numpy(fn)
             return cls(im)
-        if isinstance(fn, tuple) or isinstance(fn, list):
+        if isinstance(fn, str) or isinstance(fn, Path):
             return cls(get_las_data(fn, **kwargs))
 
     def __repr__(self): return f'{self.__class__.__name__} size={"x".join([str(d) for d in self.shape])}'
 
-def get_las_data(inps, bin_voxels:bool=False, max_h:float=42., num_bins:int=40, num_vert_bins:int=105,
+def get_las_data(fn, bin_voxels:bool=False, max_h:float=42., num_bins:int=40, num_vert_bins:int=105,
                  plot_size:float=9., bottom_voxels:bool=False, mask_plot:bool=False) -> np.ndarray:
     """
-    Create voxel grid from lidar point cloud file. Inps is a list or tuple containing filename, plot_x and plot_y.
+    Create voxel grid from lidar point cloud file. Plot center is calculated based on image data
     Other arguments:
-        * `bin_voxels`: whether to have intensity value for each voxel, default False
-        * `max_h`: maximum possible height for field plot, default 42 (m)
-        * `num_bins`, number of horizontal bins, default 40
-        * `num_vert_bins`: number of horizontal bins, default 105
-        * `plot_size`: radius for field plot, default 9 (m)
-        * `bottom_voxels`: whether to voxelize all locations below a voxel, default False
-        * `mask_plot`: whether to mask all areas outside the 9m radius, default False
-        """
-    fn = inps[0]
-    plot_x = inps[1]
-    plot_y = inps[2]
+        `bin_voxels`: whether to have intensity value for each voxel, default False
+        `max_h`: maximum possible height for field plot, default 42 (m)
+        `num_bins`, number of horizontal bins, default 40
+        `num_vert_bins`: number of horizontal bins, default 105
+        `plot_size`: radius for field plot, default 9 (m)
+        `bottom_voxels`: whether to voxelize all locations below a voxel, default False
+        `mask_plot`: whether to mask all areas outside the 9m radius, default False
+    """
+    #fn = inps#[0]
+    #plot_x = inps[1]
+    #plot_y = inps[2]
     lasfile = laspy.file.File(fn, mode='r')
+    plot_x = (lasfile.x.max() - lasfile.x.min()) / 2 + lasfile.x.min()
+    plot_y = (lasfile.y.max() - lasfile.y.min()) / 2 + lasfile.y.min()
     coords = np.vstack((lasfile.x, lasfile.y, lasfile.z)).T
     min_vals = (plot_x-plot_size, plot_y-plot_size)
 
@@ -388,8 +396,9 @@ class VoxelDataLoaders(DataLoaders):
                            #get_x=partial(get_las_files_and_voxel_kwargs, df=df,
                            #              bottom_voxels=bottom_voxels, mask_plot=mask_plot),
                            #get_y=partial(get_y_las, df=df, col=label_col),
-                           get_x=LasColReader(fn_col, pref=pref, suff='.las'),
+                           #get_x=LasColReader(fn_col, pref=pref, suff='.las'),
                            #get_x= lambda x:([x[fn_col], [x['x'], x['y']]]),
+                           get_x=ColReader(fn_col, pref=pref, suff=suff),
                            get_y=ColReader(label_col, label_delim=label_delim),
                            splitter=splitter,
                            item_tfms=item_tfms,
