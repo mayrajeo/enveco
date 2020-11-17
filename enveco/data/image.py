@@ -60,7 +60,7 @@ def calc_band_features(image:np.ndarray, band_idx:int=0):
     band_mean =  np.nanmean(image[band_idx])
     band_std = np.nanstd(image[band_idx])
     band_cv = band_std / band_mean
-    return [band_max, band_min, band_mean, band_std]
+    return [band_max, band_min, band_mean, band_std, band_cv]
 
 def get_band_feature_cols(band_name):
     return [f'{band_name}_max', f'{band_name}_min', f'{band_name}_mean',

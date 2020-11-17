@@ -145,3 +145,6 @@ notebooks/
 # models
 models/
 results/
+
+# Singularity containers
+*.sif

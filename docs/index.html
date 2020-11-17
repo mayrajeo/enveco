@@ -31,13 +31,7 @@ nb_path: "nbs/index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This repository contains the code for WP3: Machine Learning and Remote Sensing in Supporting Ecosystem Accounting. The objectives for this WP are:</p>
-<ol>
-<li>To test provisioning of remote sensing based data for the indicators of forest-related ecosystem services based on the framework defined by Mononen et al (2016) and further linked with SEEA-EEA framework by LAI et al (2018).</li>
-<li>For the prediction of wall-to-wall maps, we will test if introducing deep learning methods and new temporal, spectral and spatial features will improve the prediction results compared to traditional RS modeling methods used in NFI</li>
-<li>To address the uncertainties of the produed wall-to-wall maps, we will assess specifically the accuracy of locating spots that are important for ecosystem services supply.</li>
-<li>To evaluate value of wooded land by utilizing ecosystem indicator data with uncertainty provided by previous tasks. Valuation methods suggested in SEEA-EEA are compared with the ones commonly applied for forest land.</li>
-</ol>
+<p>This repository contains the code for WP3: Machine Learning and Remote Sensing in Supporting Ecosystem Accounting.</p>
 
 </div>
 </div>
@@ -50,21 +44,31 @@ nb_path: "nbs/index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Instructions here.</p>
+<p>TODO add <code>requirements.txt</code> and <code>environment.yml</code>.</p>
+<p>First, clone the repository</p>
+<div class="highlight"><pre><span></span>git clone https://github.com/jaeeolma/enveco
+</pre></div>
+<p>Then install the requirements with</p>
+<div class="highlight"><pre><span></span>pip install -r requirements.txt
+</pre></div>
+<p>or with</p>
+<div class="highlight"><pre><span></span>conda env create -f environment.yml
+</pre></div>
+<p>Recommended way is with conda, because installing Gdal can be troublesome.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Using-singularity-containers-in-Puhti">Using singularity containers in Puhti<a class="anchor-link" href="#Using-singularity-containers-in-Puhti"> </a></h3>
+<h3 id="With-singularity-containers-in-Puhti">With singularity containers in Puhti<a class="anchor-link" href="#With-singularity-containers-in-Puhti"> </a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Easiest way to use and develop this library in Puhti is to use singularity container with all required libraries.</p>
-<p>Use instructions in [<a href="https://cloud.sylabs.io/builder">https://cloud.sylabs.io/builder</a>] to set access tokens and then run</p>
+<p>Use instructions in <a href="https://cloud.sylabs.io/builder">https://cloud.sylabs.io/builder</a> to set access tokens and then run</p>
 <div class="highlight"><pre><span></span>singularity build --remote enveco-container.sif enveco-container.def
 </pre></div>
 <p>Edit <code>enveco-container.def</code> to such that correct shared locations are used, and edit row <code>mkdir -p /projappl /scratch /users/mayrajan</code> to contain your own home directory.</p>
@@ -89,7 +93,8 @@ nb_path: "nbs/index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Add examples.</p>
+<p>Example workflows are show in <a href="https://github.com/jaeeolma/enveco/tree/master/examples">Examples</a>.</p>
+<p><a href="https://github.com/jaeeolma/enveco/tree/master/examples/Predict%20volume%20from%20LiDAR%20features.ipynb">Predict volume from LiDAR features</a> shows how to use ANN and Random Forest for predictions, and <a href="https://github.com/jaeeolma/enveco/blob/master/examples/Voxelizations%20with%203DCnns.ipynb">Voxelizations with 3DCnns</a> shows an example of predicting features from voxel grids.</p>
 
 </div>
 </div>
@@ -102,7 +107,7 @@ nb_path: "nbs/index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Add here.</p>
+<p>Todo</p>
 
 </div>
 </div>
