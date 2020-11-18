@@ -269,6 +269,7 @@ class Inception3dV3(nn.Module):
             return self.eager_outputs(x)#, aux)
 
 # Cell
+# hide
 
 class Inception3dA(nn.Module):
     "First Inception block"
@@ -327,6 +328,7 @@ class Inception3dA(nn.Module):
         return torch.cat(outputs, 1)
 
 # Cell
+# hide
 
 class Inception3dB(nn.Module):
     "Inception_block 2"
@@ -367,6 +369,7 @@ class Inception3dB(nn.Module):
         return torch.cat(outputs, 1)
 
 # Cell
+# hide
 
 class Inception3dC(nn.Module):
     "Inception block 3"
@@ -423,6 +426,7 @@ class Inception3dC(nn.Module):
         return torch.cat(outputs, 1)
 
 # Cell
+# hide
 
 class Inception3dD(nn.Module):
     "Inception block 4"
@@ -466,6 +470,7 @@ class Inception3dD(nn.Module):
         return torch.cat(outputs, 1)
 
 # Cell
+# hide
 
 class Inception3dE(nn.Module):
     "Inception block 5"
