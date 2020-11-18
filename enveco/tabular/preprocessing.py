@@ -49,9 +49,7 @@ class EnvecoPreprocessor():
         self.train_val_df = pd.concat((self.train_df, self.valid_df))
 
 
-    def preprocess_lidar(self, target_col, path, min_h:float=1.5, mask_plot:bool=True, height_features:bool=True,
-                         point_features:bool=True, intensity_features:bool=True, height_quantiles:bool=True,
-                         point_proportions:bool=True, canopy_densities:bool=True, normalize:bool=True,
+    def preprocess_lidar(self, target_col, path, min_h:float=1.5, mask_plot:bool=True, normalize:bool=True,
                          log_y:bool=False) -> Tuple[TabularPandas, TabularPandas]:
         "Preprocess data and return (train_val, test) -tuple. Optionally log-transform target column with np.log1p"
         trainval = self.train_val_df.copy()
@@ -65,6 +63,11 @@ class EnvecoPreprocessor():
                                                                                             row.x, row.y,
                                                                                             min_h, mask_plot),
                                                             axis=1, result_type='expand')
+
+        if log_y:
+            trainval[target_col] = np.log1p(trainval[target_col])
+            test[target_col] = np.log1p(test[target_col])
+
         procs = None
         if normalize:
             procs = [Normalize]#.from_stats(*norm_stats)]
@@ -75,15 +78,65 @@ class EnvecoPreprocessor():
                                 cont_names=feature_cols, y_names=target_col)
         return trainval_tb, test_tb
 
-    def preprocess_image(self, target_col, path, radius:int=31, mask_plot=True) -> Tuple[TabularPandas, TabularPandas]:
+    def preprocess_image(self, target_col, path, radius:int=31, mask_plot:bool=True, normalize:bool=True,
+                         log_y:bool=False) -> Tuple[TabularPandas, TabularPandas]:
         "Preprocess dataframes and return (train_val, test) -tuple"
-        # TODO
-        pass
+        trainval = self.train_val_df.copy()
+        test = self.test_df.copy()
+        feature_cols = image_metric_cols
+        trainval[image_metric_cols] = trainval.progress_apply(lambda row: image_metrics(f'{path}/{row.sampleplotid}.tif',
+                                                                                        mask_plot),
+                                                              axis=1, result_type='expand')
+        test[image_metric_cols] = test.progress_apply(lambda row: image_metrics(f'{path}/{row.sampleplotid}.tif',
+                                                                                mask_plot),
+                                                      axis=1, result_type='expand')
+        if log_y:
+            trainval[target_col] = np.log1p(trainval[target_col])
+            test[target_col] = np.log1p(test[target_col])
 
-    def preprocess(self, target_col, path, lidar:bool=True, image:bool=True, min_h:float=1.5, radius:int=31,
-                   mask_plot:bool=True) -> Tuple[TabularPandas, TabularPandas]:
+        procs = None
+        if normalize:
+            procs = [Normalize]#.from_stats(*norm_stats)]
+        trainval_tb = TabularPandas(trainval, procs=procs,
+                                    cont_names=feature_cols, y_names=target_col,
+                                    splits=ColSplitter(col='is_valid')(trainval))
+        test_tb = TabularPandas(test, procs=procs,
+                                cont_names=feature_cols, y_names=target_col)
+        return trainval_tb, test_tb
+
+    def preprocess(self, target_col, path, lidar_pref, image_pref, min_h:float=1.5,
+                   mask_plot:bool=True, normalize:bool=True, log_y:bool=False) -> Tuple[TabularPandas, TabularPandas]:
         "Preprocess dataframes and return (train_val, test) -tuple"
-        # TODO
+        trainval = self.train_val_df.copy()
+        test = self.test_df.copy()
+        feature_cols = image_metric_cols + point_cloud_metric_cols
+        trainval[point_cloud_metric_cols] = trainval.progress_apply(lambda row: point_cloud_metrics(f'{path}/{lidar_pref}/{row.sampleplotid}.las',
+                                                                                                    row.x, row.y,
+                                                                                                    min_h, mask_plot),
+                                                                    axis=1, result_type='expand')
+        test[point_cloud_metric_cols] = test.progress_apply(lambda row: point_cloud_metrics(f'{path}/{lidar_pref}/{row.sampleplotid}.las',
+                                                                                            row.x, row.y,
+                                                                                            min_h, mask_plot),
+                                                            axis=1, result_type='expand')
+        trainval[image_metric_cols] = trainval.progress_apply(lambda row: image_metrics(f'{path}/{image_pref}/{row.sampleplotid}.tif',
+                                                                                        mask_plot),
+                                                                    axis=1, result_type='expand')
+        test[image_metric_cols] = test.progress_apply(lambda row: image_metrics(f'{path}/{image_pref}/{row.sampleplotid}.tif',
+                                                                                mask_plot),
+                                                            axis=1, result_type='expand')
+        if log_y:
+            trainval[target_col] = np.log1p(trainval[target_col])
+            test[target_col] = np.log1p(test[target_col])
+
+        procs = None
+        if normalize:
+            procs = [Normalize]#.from_stats(*norm_stats)]
+        trainval_tb = TabularPandas(trainval, procs=procs,
+                                    cont_names=feature_cols, y_names=target_col,
+                                    splits=ColSplitter(col='is_valid')(trainval))
+        test_tb = TabularPandas(test, procs=procs,
+                                cont_names=feature_cols, y_names=target_col)
+        return trainval_tb, test_tb
         pass
 
 # Cell
