@@ -148,3 +148,6 @@ results/
 
 # Singularity containers
 *.sif
+
+# Saved models
+*.pkl
