@@ -381,7 +381,7 @@ class VoxelDataLoaders(DataLoaders):
     @delegates(DataLoaders.from_dblock)
     def from_df(cls, df, path='.', bin_voxels:bool=False, max_h:float=42., num_bins:int=40, num_vert_bins:int=105,
                 plot_size:float=9., bottom_voxels:bool=False, mask_plot:bool=False, valid_pct=0.2, seed=None, fn_col=0,
-                folder=None, suff='', label_col=1, label_delim=None, y_block=None, valid_col=None,
+                folder=None, suff='.las', label_col=1, label_delim=None, y_block=None, valid_col=None,
                 item_tfms=None, batch_tfms=None, **kwargs):
         pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
         if y_block is None:
