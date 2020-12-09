@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
 import pandas as pd
+from osgeo import gdal
 
 # Cell
 def open_geotiff(fn, bands:List[int]=None) -> np.ndarray:
@@ -18,13 +19,13 @@ def open_geotiff(fn, bands:List[int]=None) -> np.ndarray:
     with rio.open(str(fn)) as f:
         data = f.read()
         data = data.astype(np.float32)
-        data /= 255.
+        data /= data.max(axis=(1,2))[:,None,None]
     if bands is not None: data = data[bands]
     return data
 
 # Cell
 def calc_normalized_spectral_index(im:np.ndarray, band_1:int, band_2:int) -> np.ndarray:
-    "Calculate normalized spectral index (band_1 - band_2)/(band_1-band_2). Can be used with NDVI and such simple indices"
+    "Calculate normalized spectral index (band_1 - band_2)/(band_1 + band_2). Can be used with NDVI and such simple indices"
     return (im[band_1] - im[band_2]) / (im[band_1] + im[band_2])
 
 def calc_avi(im:np.ndarray, nir:int, red:int) -> np.ndarray:
@@ -56,7 +57,7 @@ def calc_band_features(image:np.ndarray, band_idx:int=0):
     "Get basic features from a single input band: Max, min, mean, std and coefficient of variation"
     band_max = np.nanmax(image[band_idx])
     band_min = np.nanmin(image[band_idx])
-    band_mean =  np.nanmean(image[band_idx])
+    band_mean = np.nanmean(image[band_idx])
     band_std = np.nanstd(image[band_idx])
     band_cv = band_std / band_mean
     return [band_max, band_min, band_mean, band_std, band_cv]
