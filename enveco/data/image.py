@@ -9,7 +9,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
 import pandas as pd
-from osgeo import gdal
 
 # Cell
 def open_geotiff(fn, bands:List[int]=None) -> np.ndarray:
@@ -19,7 +18,7 @@ def open_geotiff(fn, bands:List[int]=None) -> np.ndarray:
     with rio.open(str(fn)) as f:
         data = f.read()
         data = data.astype(np.float32)
-        data /= data.max(axis=(1,2))[:,None,None] # Seems that these images are saved so that this is necessary...
+        data /= 255.
     if bands is not None: data = data[bands]
     return data
 
