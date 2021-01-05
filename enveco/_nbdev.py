@@ -74,7 +74,12 @@ index = {"open_geotiff": "00_data.image.ipynb",
          "bias_pct.__doc__": "05_metrics.ipynb",
          "Ensemble": "06_model.ensemble.ipynb",
          "Ensemble.export": "06_model.ensemble.ipynb",
-         "load_ensemble": "06_model.ensemble.ipynb"}
+         "load_ensemble": "06_model.ensemble.ipynb",
+         "alexnetvoxel_learner": "07_model.alexnet.ipynb",
+         "calc_same_padding_2d": "07_model.alexnet.ipynb",
+         "PaddedConv2d": "07_model.alexnet.ipynb",
+         "PaddedMaxPool2d": "07_model.alexnet.ipynb",
+         "AlexNetVoxel": "07_model.alexnet.ipynb"}
 
 modules = ["data/image.py",
            "data/las.py",
@@ -82,7 +87,8 @@ modules = ["data/image.py",
            "model/inception3dv3.py",
            "interpretation.py",
            "metrics.py",
-           "model/ensemble.py"]
+           "model/ensemble.py",
+           "model/alexnet.py"]
 
 doc_url = "https://jaeeolma.github.io/enveco/"
 
