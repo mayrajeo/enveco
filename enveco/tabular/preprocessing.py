@@ -57,11 +57,13 @@ class EnvecoPreprocessor():
         feature_cols = point_cloud_metric_cols
         trainval[point_cloud_metric_cols] = trainval.progress_apply(lambda row: point_cloud_metrics(f'{path}/{row.sampleplotid}.las',
                                                                                                     row.x, row.y,
-                                                                                                    min_h, mask_plot),
+                                                                                                    min_h=min_h,
+                                                                                                    mask_plot=mask_plot),
                                                                     axis=1, result_type='expand')
         test[point_cloud_metric_cols] = test.progress_apply(lambda row: point_cloud_metrics(f'{path}/{row.sampleplotid}.las',
                                                                                             row.x, row.y,
-                                                                                            min_h, mask_plot),
+                                                                                            min_h=min_h,
+                                                                                            mask_plot=mask_plot),
                                                             axis=1, result_type='expand')
 
         if log_y:
@@ -112,11 +114,13 @@ class EnvecoPreprocessor():
         feature_cols = image_metric_cols + point_cloud_metric_cols
         trainval[point_cloud_metric_cols] = trainval.progress_apply(lambda row: point_cloud_metrics(f'{path}/{lidar_pref}/{row.sampleplotid}.las',
                                                                                                     row.x, row.y,
-                                                                                                    min_h, mask_plot),
+                                                                                                    min_h=min_h,
+                                                                                                    mask_plot=mask_plot),
                                                                     axis=1, result_type='expand')
         test[point_cloud_metric_cols] = test.progress_apply(lambda row: point_cloud_metrics(f'{path}/{lidar_pref}/{row.sampleplotid}.las',
                                                                                             row.x, row.y,
-                                                                                            min_h, mask_plot),
+                                                                                            min_h=min_h,
+                                                                                            mask_plot=mask_plot),
                                                             axis=1, result_type='expand')
         trainval[image_metric_cols] = trainval.progress_apply(lambda row: image_metrics(f'{path}/{image_pref}/{row.sampleplotid}.tif',
                                                                                         mask_plot),
