@@ -248,10 +248,10 @@ def point_cloud_metrics(fn:str, plot_x:float=None, plot_y:float=None, mask_plot:
     # area is excluded because all of our plots have the same radius
     #area = (lasfile.x.max() - lasfile.x.min()) * (lasfile.y.max() - lasfile.y.min())
     angle = np.nanmean(np.abs(lasfile.scan_angle_rank))
-    return ([n, angle] + height_metrics(lasfile, min_h) #+ intensity_metrics(lasfile, min_h)
+    return ([n, angle] + height_metrics(lasfile, min_h) + intensity_metrics(lasfile, min_h)
             + class_metrics(lasfile, min_h) + density_metrics(lasfile, min_h))
 
-point_cloud_metric_cols = ['n', 'angle'] + z_cols + class_cols + density_cols #+ i_cols
+point_cloud_metric_cols = ['n', 'angle'] + z_cols + class_cols + density_cols + i_cols
 
 # Cell
 from fastai.basics import *
