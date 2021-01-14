@@ -48,9 +48,8 @@ class EnvecoPreprocessor():
         self.valid_df['is_valid'] = 1
         self.train_val_df = pd.concat((self.train_df, self.valid_df))
 
-
     def preprocess_lidar(self, target_col, path, min_h:float=1.5, mask_plot:bool=True, normalize:bool=True,
-                         log_y:bool=False) -> Tuple[TabularPandas, TabularPandas]:
+                         log_y:bool=False, save_path:str=None) -> Tuple[TabularPandas, TabularPandas]:
         "Preprocess data and return (train_val, test) -tuple. Optionally log-transform target column with np.log1p"
         trainval = self.train_val_df.copy()
         test = self.test_df.copy()
@@ -78,24 +77,83 @@ class EnvecoPreprocessor():
                                     splits=ColSplitter(col='is_valid')(trainval))
         test_tb = TabularPandas(test, procs=procs,
                                 cont_names=feature_cols, y_names=target_col)
+        if save_path:
+            trainval.to_csv(f'{save_path}/las_trainval.csv', index=False)
+            test.to_csv(f'{save_path}/las_test.csv', index=False)
+            with open(f'{save_path}/las_features.txt', 'w') as f:
+                f.writelines("%s\n" % c for c in feature_cols)
         return trainval_tb, test_tb
 
-    def preprocess_image(self, target_col, path, radius:int=31, mask_plot:bool=True, normalize:bool=True,
-                         log_y:bool=False) -> Tuple[TabularPandas, TabularPandas]:
-        "Preprocess dataframes and return (train_val, test) -tuple"
-        trainval = self.train_val_df.copy()
-        test = self.test_df.copy()
-        feature_cols = image_metric_cols
-        trainval[image_metric_cols] = trainval.progress_apply(lambda row: image_metrics(f'{path}/{row.sampleplotid}.tif',
-                                                                                        mask_plot),
-                                                              axis=1, result_type='expand')
-        test[image_metric_cols] = test.progress_apply(lambda row: image_metrics(f'{path}/{row.sampleplotid}.tif',
-                                                                                mask_plot),
-                                                      axis=1, result_type='expand')
+    def load_las(self, path, target_col, normalize:bool=True, log_y:bool=False) -> Tuple[TabularPandas, TabularPandas]:
+        "Load previously preprocessed las data"
+        trainval = pd.read_csv(f'{path}/las_trainval.csv')
+        test = pd.read_csv(f'{path}/las_test.csv')
+        with open(f'{path}/las_features.txt', 'r') as f:
+            feature_cols = [c.rstrip() for c in f.readlines()]
+
         if log_y:
             trainval[target_col] = np.log1p(trainval[target_col])
             test[target_col] = np.log1p(test[target_col])
+        procs = None
+        if normalize:
+            procs = [Normalize]#.from_stats(*norm_stats)]
+        trainval_tb = TabularPandas(trainval, procs=procs,
+                                    cont_names=feature_cols, y_names=target_col,
+                                    splits=ColSplitter(col='is_valid')(trainval))
+        test_tb = TabularPandas(test, procs=procs,
+                                cont_names=feature_cols, y_names=target_col)
+        return trainval_tb, test_tb
 
+    def preprocess_image(self, target_col, path, radius:int=31, mask_plot:bool=True, normalize:bool=True,
+                         log_y:bool=False, save_path:str=None) -> Tuple[TabularPandas, TabularPandas]:
+        "Preprocess dataframes and return (train_val, test) -tuple"
+        trainval = self.train_val_df.copy()
+        test = self.test_df.copy()
+        #feature_cols = image_metric_cols
+        trainval_feats = []
+        for s in tqdm(trainval.sampleplotid.unique()):
+            feats = process_image_features(f'{path}/{s}.tif', mask_plot, radius)
+            feats['sampleplotid'] = s
+            trainval_feats.append(feats)
+        trainval_feats = pd.DataFrame(trainval_feats)
+        test_feats = []
+        for s in tqdm(test.sampleplotid.unique()):
+            feats = process_image_features(f'{path}/{s}.tif', mask_plot, radius)
+            feats['sampleplotid'] = s
+            test_feats.append(feats)
+        test_feats = pd.DataFrame(test_feats)
+        trainval = trainval.merge(trainval_feats, on='sampleplotid', how='left')
+        test = test.merge(test_feats, on='sampleplotid', how='left')
+
+        if log_y:
+            trainval[target_col] = np.log1p(trainval[target_col])
+            test[target_col] = np.log1p(test[target_col])
+        procs = None
+        if normalize:
+            procs = [Normalize]#.from_stats(*norm_stats)]
+        feature_cols = [k for k in trainval_feats.columns if k != 'sampleplotid']
+        trainval_tb = TabularPandas(trainval, procs=procs,
+                                    cont_names=feature_cols, y_names=target_col,
+                                    splits=ColSplitter(col='is_valid')(trainval))
+        test_tb = TabularPandas(test, procs=procs,
+                                cont_names=feature_cols, y_names=target_col)
+        if save_path:
+            trainval.to_csv(f'{save_path}/image_trainval.csv', index=False)
+            test.to_csv(f'{save_path}/image_test.csv', index=False)
+            with open(f'{save_path}/image_features.txt', 'w') as f:
+                f.writelines("%s\n" % c for c in feature_cols)
+        return trainval_tb, test_tb
+
+    def load_image(self, path, target_col, normalize:bool=True, log_y:bool=False) -> Tuple[TabularPandas, TabularPandas]:
+        "Load previously preprocessed image data"
+        trainval = pd.read_csv(f'{path}/image_trainval.csv')
+        test = pd.read_csv(f'{path}/image_test.csv')
+        with open(f'{path}/image_features.txt', 'r') as f:
+            feature_cols = [c.rstrip() for c in f.readlines()]
+
+        if log_y:
+            trainval[target_col] = np.log1p(trainval[target_col])
+            test[target_col] = np.log1p(test[target_col])
         procs = None
         if normalize:
             procs = [Normalize]#.from_stats(*norm_stats)]
@@ -107,11 +165,12 @@ class EnvecoPreprocessor():
         return trainval_tb, test_tb
 
     def preprocess(self, target_col, path, lidar_pref, image_pref, min_h:float=1.5,
-                   mask_plot:bool=True, normalize:bool=True, log_y:bool=False) -> Tuple[TabularPandas, TabularPandas]:
+                   mask_plot:bool=True, normalize:bool=True, log_y:bool=False,
+                   save_path:str=None) -> Tuple[TabularPandas, TabularPandas]:
         "Preprocess dataframes and return (train_val, test) -tuple"
         trainval = self.train_val_df.copy()
         test = self.test_df.copy()
-        feature_cols = image_metric_cols + point_cloud_metric_cols
+        feature_cols = point_cloud_metric_cols
         trainval[point_cloud_metric_cols] = trainval.progress_apply(lambda row: point_cloud_metrics(f'{path}/{lidar_pref}/{row.sampleplotid}.las',
                                                                                                     row.x, row.y,
                                                                                                     min_h=min_h,
@@ -122,16 +181,53 @@ class EnvecoPreprocessor():
                                                                                             min_h=min_h,
                                                                                             mask_plot=mask_plot),
                                                             axis=1, result_type='expand')
-        trainval[image_metric_cols] = trainval.progress_apply(lambda row: image_metrics(f'{path}/{image_pref}/{row.sampleplotid}.tif',
-                                                                                        mask_plot),
-                                                                    axis=1, result_type='expand')
-        test[image_metric_cols] = test.progress_apply(lambda row: image_metrics(f'{path}/{image_pref}/{row.sampleplotid}.tif',
-                                                                                mask_plot),
-                                                            axis=1, result_type='expand')
+
+        trainval_feats = []
+        for s in tqdm(trainval.sampleplotid.unique()):
+            feats = process_image_features(f'{path}/{image_pref}/{s}.tif', mask_plot, radius=31)
+            feats['sampleplotid'] = s
+            trainval_feats.append(feats)
+        trainval_feats = pd.DataFrame(trainval_feats)
+        test_feats = []
+        for s in tqdm(test.sampleplotid.unique()):
+            feats = process_image_features(f'{path}/{image_pref}/{s}.tif', mask_plot, radius=31)
+            feats['sampleplotid'] = s
+            test_feats.append(feats)
+        test_feats = pd.DataFrame(test_feats)
+        trainval = trainval.merge(trainval_feats, on='sampleplotid', how='left')
+        test = test.merge(test_feats, on='sampleplotid', how='left')
+
+        feature_cols = feature_cols + [c for c in trainval_feats.columns if c != 'sampleplotid']
+
         if log_y:
             trainval[target_col] = np.log1p(trainval[target_col])
             test[target_col] = np.log1p(test[target_col])
+        procs = None
+        if normalize:
+            procs = [Normalize]#.from_stats(*norm_stats)]
+        trainval_tb = TabularPandas(trainval, procs=procs,
+                                    cont_names=feature_cols, y_names=target_col,
+                                    splits=ColSplitter(col='is_valid')(trainval))
+        test_tb = TabularPandas(test, procs=procs,
+                                cont_names=feature_cols, y_names=target_col)
 
+        if save_path:
+            trainval.to_csv(f'{save_path}/las_image_trainval.csv', index=False)
+            test.to_csv(f'{save_path}/las_image_test.csv', index=False)
+            with open(f'{save_path}/las_image_features.txt', 'w') as f:
+                f.writelines("%s\n" % c for c in feature_cols)
+        return trainval_tb, test_tb
+
+    def load_las_image(self, path, target_col, normalize:bool=True, log_y:bool=False) -> Tuple[TabularPandas, TabularPandas]:
+        "Load previously preprocessed image data"
+        trainval = pd.read_csv(f'{path}/las_image_trainval.csv')
+        test = pd.read_csv(f'{path}/las_image_test.csv')
+        with open(f'{path}/las_image_features.txt', 'r') as f:
+            feature_cols = [c.rstrip() for c in f.readlines()]
+
+        if log_y:
+            trainval[target_col] = np.log1p(trainval[target_col])
+            test[target_col] = np.log1p(test[target_col])
         procs = None
         if normalize:
             procs = [Normalize]#.from_stats(*norm_stats)]
@@ -141,7 +237,7 @@ class EnvecoPreprocessor():
         test_tb = TabularPandas(test, procs=procs,
                                 cont_names=feature_cols, y_names=target_col)
         return trainval_tb, test_tb
-        pass
+
 
 # Cell
 

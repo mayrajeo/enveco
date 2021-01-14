@@ -25,10 +25,10 @@ class Ensemble():
             else:
                 self.models.append(learn_func(dls=self.dls, path=path, model_dir=ens_dir, **learner_kwargs))
 
-    def fit_one_cycle(self, n_iterations, max_lr, **kwargs):
+    def fit_one_cycle(self, n_iterations, lr_max, **kwargs):
         "Fit the models with fit_one_cycle"
         for m in self.models:
-            m.fit_one_cycle(n_iterations, max_lr=max_lr, **kwargs)
+            m.fit_one_cycle(n_iterations, lr_max=lr_max, **kwargs)
 
 
     def validate(self, dl=None) -> pd.DataFrame:
