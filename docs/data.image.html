@@ -628,26 +628,26 @@ Returns numpy array of shape (C,W,H)</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{&#39;nir_max&#39;: 0.57254905,
- &#39;nir_min&#39;: 0.019607844,
- &#39;nir_mean&#39;: 0.17441626,
- &#39;nir_std&#39;: 0.11652089,
- &#39;nir_var&#39;: 0.013577118,
- &#39;red_max&#39;: 0.84705883,
- &#39;red_min&#39;: 0.101960786,
- &#39;red_mean&#39;: 0.28880516,
- &#39;red_std&#39;: 0.14317767,
- &#39;red_var&#39;: 0.020499846,
- &#39;green_max&#39;: 0.75686276,
- &#39;green_min&#39;: 0.101960786,
- &#39;green_mean&#39;: 0.26897094,
- &#39;green_std&#39;: 0.12657654,
- &#39;green_var&#39;: 0.016021622,
- &#39;ndvi_max&#39;: 0.06849314,
- &#39;ndvi_min&#39;: -0.7959184,
- &#39;ndvi_mean&#39;: -0.2944648,
- &#39;ndvi_std&#39;: 0.1423691,
- &#39;ndvi_var&#39;: 0.020268964}</pre>
+<pre>{&#39;nir_pix_max&#39;: 0.57254905,
+ &#39;nir_pix_min&#39;: 0.019607844,
+ &#39;nir_pix_mean&#39;: 0.17441626,
+ &#39;nir_pix_std&#39;: 0.11652089,
+ &#39;nir_pix_var&#39;: 0.013577118,
+ &#39;red_pix_max&#39;: 0.84705883,
+ &#39;red_pix_min&#39;: 0.101960786,
+ &#39;red_pix_mean&#39;: 0.28880516,
+ &#39;red_pix_std&#39;: 0.14317767,
+ &#39;red_pix_var&#39;: 0.020499846,
+ &#39;green_pix_max&#39;: 0.75686276,
+ &#39;green_pix_min&#39;: 0.101960786,
+ &#39;green_pix_mean&#39;: 0.26897094,
+ &#39;green_pix_std&#39;: 0.12657654,
+ &#39;green_pix_var&#39;: 0.016021622,
+ &#39;ndvi_pix_max&#39;: 0.06849314,
+ &#39;ndvi_pix_min&#39;: -0.7959184,
+ &#39;ndvi_pix_mean&#39;: -0.2944648,
+ &#39;ndvi_pix_std&#39;: 0.1423691,
+ &#39;ndvi_pix_var&#39;: 0.020268964}</pre>
 </div>
 
 </div>
@@ -719,42 +719,10 @@ Returns numpy array of shape (C,W,H)</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="textural_features" class="doc_header"><code>textural_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L116" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>textural_features</code>(<strong><code>fn</code></strong>, <strong><code>band_names</code></strong>:<code>List</code>[<code>T</code>]=<em><code>['nir', 'red', 'green']</code></em>, <strong><code>distances</code></strong>:<code>List</code>[<code>int</code>]=<em><code>[8]</code></em>, <strong><code>angles</code></strong>:<code>List</code>[<code>float</code>]=<em><code>[0, 0.7853981633974483, 1.5707963267948966, 2.356194490192345]</code></em>, <strong><code>n_grey</code></strong>:<code>int</code>=<em><code>20</code></em>)</p>
+<h4 id="textural_features" class="doc_header"><code>textural_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L116" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>textural_features</code>(<strong><code>fn</code></strong>, <strong><code>band_names</code></strong>:<code>List</code>[<code>T</code>]=<em><code>['nir', 'red', 'green', 'ndvi']</code></em>, <strong><code>distances</code></strong>:<code>List</code>[<code>int</code>]=<em><code>[8]</code></em>, <strong><code>angles</code></strong>:<code>List</code>[<code>float</code>]=<em><code>[0, 0.7853981633974483, 1.5707963267948966, 2.356194490192345]</code></em>, <strong><code>n_grey</code></strong>:<code>int</code>=<em><code>20</code></em>)</p>
 </blockquote>
 <p>Get textural features from images. Works close to R package radiomics <code>GLCMFeatures</code> functions.
 However skimage makes glcm a bit differently</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="process_image_features" class="doc_header"><code>process_image_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L251" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>process_image_features</code>(<strong><code>fn</code></strong>:<code>str</code>, <strong><code>mask_plot</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>radius</code></strong>:<code>int</code>=<em><code>31</code></em>)</p>
-</blockquote>
-<p>Process rasters to tabular format. Todo Textural features parasm</p>
 
 </div>
 
@@ -857,7 +825,196 @@ However skimage makes glcm a bit differently</p>
  &#39;green_maxProb&#39;: 0.0346796338380288,
  &#39;green_sumaverage&#39;: 11.48761820891478,
  &#39;green_sumentropy&#39;: 4.548147520177902,
- &#39;green_sumvariance&#39;: 103.82556940524873}</pre>
+ &#39;green_sumvariance&#39;: 103.82556940524873,
+ &#39;ndvi_mean&#39;: 9.37250773914666,
+ &#39;ndvi_var&#39;: 11.426689220006635,
+ &#39;ndvi_ac&#39;: 91.63252415048326,
+ &#39;ndvi_cProminence&#39;: 2925.313382428991,
+ &#39;ndvi_cShade&#39;: -192.33648988639348,
+ &#39;ndvi_cTendency&#39;: 32.42492566116528,
+ &#39;ndvi_contrast&#39;: 13.281831218861278,
+ &#39;ndvi_corr&#39;: 0.3629125859940611,
+ &#39;ndvi_diffentropy&#39;: 3.0075284590714437,
+ &#39;ndvi_dissimilarity&#39;: 2.9251723829414127,
+ &#39;ndvi_energy&#39;: 0.008224740833296634,
+ &#39;ndvi_ent&#39;: 3.8767240770456457,
+ &#39;ndvi_homogeneity1&#39;: 0.3669697270589053,
+ &#39;ndvi_homogeneity2&#39;: 0.2753879128758563,
+ &#39;ndvi_idmn&#39;: 0.9720794570511672,
+ &#39;ndvi_idn&#39;: 0.8846427851555932,
+ &#39;ndvi_iv&#39;: 0.2784016448233211,
+ &#39;ndvi_maxProb&#39;: 0.017546428489262335,
+ &#39;ndvi_sumaverage&#39;: 18.745015478293322,
+ &#39;ndvi_sumentropy&#39;: 4.4265745042803,
+ &#39;ndvi_sumvariance&#39;: 263.1007402880283}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="process_image_features" class="doc_header"><code>process_image_features</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/data/image.py#L255" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>process_image_features</code>(<strong><code>fn</code></strong>:<code>str</code>, <strong><code>mask_plot</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>radius</code></strong>:<code>int</code>=<em><code>31</code></em>)</p>
+</blockquote>
+<p>Process rasters to tabular format. Todo Textural features parasm</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">process_image_features</span><span class="p">(</span><span class="n">data_path</span><span class="o">/</span><span class="n">example</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;nir_pix_max&#39;: 0.57254905,
+ &#39;nir_pix_min&#39;: 0.019607844,
+ &#39;nir_pix_mean&#39;: 0.17441626,
+ &#39;nir_pix_std&#39;: 0.11652089,
+ &#39;nir_pix_var&#39;: 0.013577118,
+ &#39;red_pix_max&#39;: 0.84705883,
+ &#39;red_pix_min&#39;: 0.101960786,
+ &#39;red_pix_mean&#39;: 0.28880516,
+ &#39;red_pix_std&#39;: 0.14317767,
+ &#39;red_pix_var&#39;: 0.020499846,
+ &#39;green_pix_max&#39;: 0.75686276,
+ &#39;green_pix_min&#39;: 0.101960786,
+ &#39;green_pix_mean&#39;: 0.26897094,
+ &#39;green_pix_std&#39;: 0.12657654,
+ &#39;green_pix_var&#39;: 0.016021622,
+ &#39;ndvi_pix_max&#39;: 0.06849314,
+ &#39;ndvi_pix_min&#39;: -0.7959184,
+ &#39;ndvi_pix_mean&#39;: -0.2944648,
+ &#39;ndvi_pix_std&#39;: 0.1423691,
+ &#39;ndvi_pix_var&#39;: 0.020268964,
+ &#39;nir_mean&#39;: 6.242770895695985,
+ &#39;nir_var&#39;: 19.91071533555918,
+ &#39;nir_ac&#39;: 43.970468234349795,
+ &#39;nir_cProminence&#39;: 5461.304022897567,
+ &#39;nir_cShade&#39;: -100.98895938516941,
+ &#39;nir_cTendency&#39;: 51.8129034697799,
+ &#39;nir_contrast&#39;: 27.829957872456824,
+ &#39;nir_corr&#39;: 0.26540880575295855,
+ &#39;nir_diffentropy&#39;: 3.5050279160278652,
+ &#39;nir_dissimilarity&#39;: 4.059994606242954,
+ &#39;nir_energy&#39;: 0.009471605985311514,
+ &#39;nir_ent&#39;: 4.584575102816121,
+ &#39;nir_homogeneity1&#39;: 0.33184677795829365,
+ &#39;nir_homogeneity2&#39;: 0.2467080665188296,
+ &#39;nir_idmn&#39;: 0.946351167676496,
+ &#39;nir_idn&#39;: 0.8520441802784546,
+ &#39;nir_iv&#39;: 0.248024959792577,
+ &#39;nir_maxProb&#39;: 0.045637498625997905,
+ &#39;nir_sumaverage&#39;: 12.485541791391972,
+ &#39;nir_sumentropy&#39;: 4.6414218287138596,
+ &#39;nir_sumvariance&#39;: 126.03692592673706,
+ &#39;red_mean&#39;: 5.678524040563098,
+ &#39;red_var&#39;: 16.60686010881291,
+ &#39;red_ac&#39;: 37.73503508498363,
+ &#39;red_cProminence&#39;: 5478.841142994768,
+ &#39;red_cShade&#39;: -20.047692628015966,
+ &#39;red_cTendency&#39;: 46.189432674376604,
+ &#39;red_contrast&#39;: 20.238007760875067,
+ &#39;red_corr&#39;: 0.35291993741378413,
+ &#39;red_diffentropy&#39;: 3.3099204608219828,
+ &#39;red_dissimilarity&#39;: 3.4823336562770804,
+ &#39;red_energy&#39;: 0.00990436669053257,
+ &#39;red_ent&#39;: 4.313233520674327,
+ &#39;red_homogeneity1&#39;: 0.3616124215995425,
+ &#39;red_homogeneity2&#39;: 0.27531244521941584,
+ &#39;red_idmn&#39;: 0.9592940865745307,
+ &#39;red_idn&#39;: 0.8686651696520871,
+ &#39;red_iv&#39;: 0.24617989196905765,
+ &#39;red_maxProb&#39;: 0.04285948368196773,
+ &#39;red_sumaverage&#39;: 11.357048081126196,
+ &#39;red_sumentropy&#39;: 4.5429395793005485,
+ &#39;red_sumvariance&#39;: 103.25553712099685,
+ &#39;green_mean&#39;: 5.74380910445739,
+ &#39;green_var&#39;: 16.946574986862924,
+ &#39;green_ac&#39;: 37.43880598579218,
+ &#39;green_cProminence&#39;: 4751.8435470139175,
+ &#39;green_cShade&#39;: -61.429781821396794,
+ &#39;green_cTendency&#39;: 44.78503870300203,
+ &#39;green_contrast&#39;: 23.00126124444967,
+ &#39;green_corr&#39;: 0.28033371298156595,
+ &#39;green_diffentropy&#39;: 3.3900122566647077,
+ &#39;green_dissimilarity&#39;: 3.7131198922271103,
+ &#39;green_energy&#39;: 0.0093370446822673,
+ &#39;green_ent&#39;: 4.336817238125753,
+ &#39;green_homogeneity1&#39;: 0.34842937069712054,
+ &#39;green_homogeneity2&#39;: 0.26208146364328605,
+ &#39;green_idmn&#39;: 0.9543902834483401,
+ &#39;green_idn&#39;: 0.8617646470113566,
+ &#39;green_iv&#39;: 0.2440147191897257,
+ &#39;green_maxProb&#39;: 0.0346796338380288,
+ &#39;green_sumaverage&#39;: 11.48761820891478,
+ &#39;green_sumentropy&#39;: 4.548147520177902,
+ &#39;green_sumvariance&#39;: 103.82556940524873,
+ &#39;ndvi_mean&#39;: 9.37250773914666,
+ &#39;ndvi_var&#39;: 11.426689220006635,
+ &#39;ndvi_ac&#39;: 91.63252415048326,
+ &#39;ndvi_cProminence&#39;: 2925.313382428991,
+ &#39;ndvi_cShade&#39;: -192.33648988639348,
+ &#39;ndvi_cTendency&#39;: 32.42492566116528,
+ &#39;ndvi_contrast&#39;: 13.281831218861278,
+ &#39;ndvi_corr&#39;: 0.3629125859940611,
+ &#39;ndvi_diffentropy&#39;: 3.0075284590714437,
+ &#39;ndvi_dissimilarity&#39;: 2.9251723829414127,
+ &#39;ndvi_energy&#39;: 0.008224740833296634,
+ &#39;ndvi_ent&#39;: 3.8767240770456457,
+ &#39;ndvi_homogeneity1&#39;: 0.3669697270589053,
+ &#39;ndvi_homogeneity2&#39;: 0.2753879128758563,
+ &#39;ndvi_idmn&#39;: 0.9720794570511672,
+ &#39;ndvi_idn&#39;: 0.8846427851555932,
+ &#39;ndvi_iv&#39;: 0.2784016448233211,
+ &#39;ndvi_maxProb&#39;: 0.017546428489262335,
+ &#39;ndvi_sumaverage&#39;: 18.745015478293322,
+ &#39;ndvi_sumentropy&#39;: 4.4265745042803,
+ &#39;ndvi_sumvariance&#39;: 263.1007402880283}</pre>
 </div>
 
 </div>
