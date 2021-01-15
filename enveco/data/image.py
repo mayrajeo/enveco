@@ -64,32 +64,32 @@ def image_metrics(fn, mask_plot:bool=True, radius:int=31) -> dict:
     if mask_plot == True: image = mask_plot_from_image(image, radius=radius)
     # Max, mean, std and coefficient of variation
     features = {}
-    features['nir_max'] = np.nanmax(image[0])
-    features['nir_min'] = np.nanmin(image[0])
-    features['nir_mean'] = np.nanmean(image[0])
-    features['nir_std'] = np.nanstd(image[0])
-    features['nir_var'] = np.nanvar(image[0])
+    features['nir_pix_max'] = np.nanmax(image[0])
+    features['nir_pix_min'] = np.nanmin(image[0])
+    features['nir_pix_mean'] = np.nanmean(image[0])
+    features['nir_pix_std'] = np.nanstd(image[0])
+    features['nir_pix_var'] = np.nanvar(image[0])
 
-    features['red_max'] = np.nanmax(image[1])
-    features['red_min'] = np.nanmin(image[1])
-    features['red_mean'] = np.nanmean(image[1])
-    features['red_std'] = np.nanstd(image[1])
-    features['red_var'] = np.nanvar(image[1])
+    features['red_pix_max'] = np.nanmax(image[1])
+    features['red_pix_min'] = np.nanmin(image[1])
+    features['red_pix_mean'] = np.nanmean(image[1])
+    features['red_pix_std'] = np.nanstd(image[1])
+    features['red_pix_var'] = np.nanvar(image[1])
 
-    features['green_max'] = np.nanmax(image[2])
-    features['green_min'] = np.nanmin(image[2])
-    features['green_mean'] = np.nanmean(image[2])
-    features['green_std'] = np.nanstd(image[2])
-    features['green_var'] = np.nanvar(image[2])
+    features['green_pix_max'] = np.nanmax(image[2])
+    features['green_pix_min'] = np.nanmin(image[2])
+    features['green_pix_mean'] = np.nanmean(image[2])
+    features['green_pix_std'] = np.nanstd(image[2])
+    features['green_pix_var'] = np.nanvar(image[2])
 
     # spectral indices
     # NDVI
     ndvi = calc_normalized_spectral_index(image, 0, 1)
-    features['ndvi_max'] = np.nanmax(ndvi)
-    features['ndvi_min'] = np.nanmin(ndvi)
-    features['ndvi_mean'] = np.nanmean(ndvi)
-    features['ndvi_std'] = np.nanstd(ndvi)
-    features['ndvi_var'] = np.nanvar(ndvi)
+    features['ndvi_pix_max'] = np.nanmax(ndvi)
+    features['ndvi_pix_min'] = np.nanmin(ndvi)
+    features['ndvi_pix_mean'] = np.nanmean(ndvi)
+    features['ndvi_pix_std'] = np.nanstd(ndvi)
+    features['ndvi_pix_var'] = np.nanvar(ndvi)
 
     return features
 
@@ -114,7 +114,7 @@ def glcm_xminusy(glcm, k, distance, angle):
     return s*2
 
 def textural_features(fn,
-                      band_names:List=['nir', 'red', 'green'],
+                      band_names:List=['nir', 'red', 'green', 'ndvi'],
                       distances:List[int]=[8],
                       angles:List[float]=[0, np.pi/4, np.pi/2, 3*np.pi/4],
                       n_grey:int=20) -> dict:
@@ -122,6 +122,10 @@ def textural_features(fn,
     However skimage makes glcm a bit differently"""
     tex_features = {}
     im = open_geotiff(fn)
+
+    # add NDVI
+    im = np.vstack((im, calc_normalized_spectral_index(im, 1, 0)[None]))
+
     for b in range(im.shape[0]):
         pref = band_names[b]
 
