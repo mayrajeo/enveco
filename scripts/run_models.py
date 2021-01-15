@@ -54,7 +54,6 @@ def run_models(data_path:str, outdir:str, log_y:bool=False):
         fig = test_interp.plot_results(log_y=log_y)
         for f in fig: f.get_figure().savefig(f'{outdir}/{t}/ann_test.png', dpi=300, bbox_inches='tight')
 
-
         rf = RandomForestRegressor(n_estimators=500, max_features=0.5, min_samples_leaf=4, oob_score=True)
         rf.fit(trainval_tb.train.xs, trainval_tb.train.ys.values.ravel())
         fig = plot_sklearn_regression(rf, trainval_tb.valid.xs, trainval_tb.valid.ys,log_y=log_y)
