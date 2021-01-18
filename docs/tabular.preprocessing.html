@@ -75,9 +75,9 @@ nb_path: "nbs/02_tabular.preprocessing.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_lidar_feature" class="doc_header"><code>get_lidar_feature</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/tabular/preprocessing.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_lidar_feature</code>(<strong><code>row</code></strong>, <strong><code>path</code></strong>, <strong><code>feature_func</code></strong>, <strong><code>min_h</code></strong>:<code>float</code>=<em><code>1.5</code></em>, <strong><code>mask_plot</code></strong>=<em><code>True</code></em>)</p>
+<h2 id="EnvecoPreprocessor" class="doc_header"><code>class</code> <code>EnvecoPreprocessor</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/tabular/preprocessing.py#L20" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>EnvecoPreprocessor</code>(<strong><code>train_path</code></strong>, <strong><code>valid_path</code></strong>, <strong><code>test_path</code></strong>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>Function for LiDAR opening and processing steps</p>
+<p>Needs a bit refactoring</p>
 
 </div>
 
@@ -107,70 +107,7 @@ nb_path: "nbs/02_tabular.preprocessing.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_image_procs" class="doc_header"><code>get_image_procs</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/tabular/preprocessing.py#L26" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_image_procs</code>(<strong><code>row</code></strong>, <strong><code>path</code></strong>, <strong><code>radius</code></strong>=<em><code>31</code></em>, <strong><code>mask_plot</code></strong>=<em><code>True</code></em>)</p>
-</blockquote>
-<p>Function for tif opening and processing steps</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="EnvecoPreprocessor" class="doc_header"><code>class</code> <code>EnvecoPreprocessor</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/tabular/preprocessing.py#L38" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>EnvecoPreprocessor</code>(<strong><code>train_path</code></strong>, <strong><code>valid_path</code></strong>, <strong><code>test_path</code></strong>, <strong>**<code>kwargs</code></strong>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="process_one" class="doc_header"><code>process_one</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/tabular/preprocessing.py#L244" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>process_one</code>(<strong><code>path</code></strong>, <strong><code>plot_x</code></strong>:<code>float</code>=<em><code>None</code></em>, <strong><code>plot_y</code></strong>:<code>float</code>=<em><code>None</code></em>, <strong><code>mask_plot</code></strong>=<em><code>True</code></em>, <strong><code>radius</code></strong>=<em><code>9</code></em>)</p>
+<h4 id="process_one" class="doc_header"><code>process_one</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/tabular/preprocessing.py#L226" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>process_one</code>(<strong><code>path</code></strong>, <strong><code>plot_x</code></strong>:<code>float</code>=<em><code>None</code></em>, <strong><code>plot_y</code></strong>:<code>float</code>=<em><code>None</code></em>, <strong><code>mask_plot</code></strong>=<em><code>True</code></em>, <strong><code>radius</code></strong>=<em><code>9</code></em>)</p>
 </blockquote>
 <p>Utility for predicting single point cloud</p>
 
