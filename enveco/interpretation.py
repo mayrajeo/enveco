@@ -40,6 +40,8 @@ class RegressionInterpretation(Interpretation):
             a.grid()
             x = np.linspace(0, max(self.preds[:,i].max(),self.targs[:,i].max()))
             a.plot(x, x, color='orange')
+            m, b = np.polyfit(self.targs[:,i], self.preds[:,i], 1)
+            a.plot(x, m*x+b, color='blue')
             cbar = plt.colorbar(im, ax=a)
             cbar.ax.set_ylabel('Deviations', rotation=90)
 
@@ -101,6 +103,8 @@ def plot_sklearn_regression(model, X:TabularPandas, y:TabularPandas, log_y:bool=
         a.grid()
         x = np.linspace(0, max(preds[:,i].max(),y[:,i].max()))
         a.plot(x, x, color='orange')
+        m, b = np.polyfit(y[:,i], preds[:,i], 1)
+        a.plot(x, m*x+b, color='blue')
         cbar = plt.colorbar(im, ax=a)
         cbar.ax.set_ylabel('Deviations', rotation=90)
         res_mae = mae(Tensor(y[:,i]), Tensor(preds[:,i]))
