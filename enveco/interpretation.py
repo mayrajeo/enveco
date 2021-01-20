@@ -52,7 +52,7 @@ class RegressionInterpretation(Interpretation):
             res_rmse = rmse(self.targs[:,i], self.preds[:,i])
             labels.append(f'RMSE: {res_rmse:.2f}'
                          )
-            res_rrmse = res_rmse / self.targs.mean() * 100
+            res_rrmse = res_rmse / self.targs[:,i].mean() * 100
             labels.append(f'RRMSE: {res_rrmse:.2f}%')
 
             res_mae = mae(self.targs[:,i], self.preds[:,i])
@@ -110,7 +110,7 @@ def plot_sklearn_regression(model, X:TabularPandas, y:TabularPandas, log_y:bool=
         res_mae = mae(Tensor(y[:,i]), Tensor(preds[:,i]))
         res_mse = mse(Tensor(y[:,i]), Tensor(preds[:,i]))
         res_rmse = rmse(Tensor(y[:,i]), Tensor(preds[:,i]))
-        res_rrmse = res_rmse / y.mean() * 100
+        res_rrmse = res_rmse / y[:,i].mean() * 100
         r2 = R2Score()(Tensor(y[:,i]), Tensor(preds[:,i]))
         adjusted_r2 = adjusted_R2Score(r2, X.shape[0], X.shape[1])
         res_bias = bias(Tensor(y[:,i]), Tensor(preds[:,i]))

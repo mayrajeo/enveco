@@ -28,7 +28,7 @@ class Ensemble():
     def fit_one_cycle(self, n_iterations, lr_max, **kwargs):
         "Fit the models with fit_one_cycle"
         for m in self.models:
-            m.fit_one_cycle(n_iterations, lr_max=lr_max, **kwargs)
+            with m.no_logging(): m.fit_one_cycle(n_iterations, lr_max=lr_max, **kwargs)
 
 
     def validate(self, dl=None) -> pd.DataFrame:

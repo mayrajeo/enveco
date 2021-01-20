@@ -50,7 +50,7 @@ singularity shell -nv --writable-tmpfs --bind $PROJAPPL:/projappl --bind $SCRATC
 
 Example workflows are show in [Examples](https://github.com/jaeeolma/enveco/tree/master/examples). 
 
-[Predict volume from LiDAR features](https://github.com/jaeeolma/enveco/tree/master/examples/Predict%20volume%20from%20LiDAR%20features.ipynb) shows how to use ANN and Random Forest for predictions, and [Voxelizations with 3DCnns](https://github.com/jaeeolma/enveco/blob/master/examples/Voxelizations%20with%203DCnns.ipynb) shows an example of predicting features from voxel grids.
+[Predict volume from LiDAR aerial image features](https://github.com/jaeeolma/enveco/tree/master/examples/Predict%20volume%20from%20LiDAR%20and%20aerial%20image%20features.ipynb) shows how to use ANN and Random Forest for predictions, and [Voxelizations with 3DCnns](https://github.com/jaeeolma/enveco/blob/master/examples/Voxelizations%20with%203DCnns.ipynb) shows an example of predicting features from voxel grids.
 
 ## Authors
 
