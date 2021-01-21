@@ -32,18 +32,21 @@ class Ensemble():
 
 
     def validate(self, dl=None) -> pd.DataFrame:
-        "Validate all models individually and as an ensemble"
+        "Validate all models individually and as an ensemble TODO fix to work with multitarget"
         if dl is None: dl=self.dls[1]
-        model_results = torch.cat([m.get_preds(reorder=False, dl=dl)[0] for m in self.models], dim=-1)
+        model_results = torch.cat([m.get_preds(reorder=False, dl=dl)[0][:,:,None] for m in self.models], dim=-1)
         targs = self.models[0].get_preds(reorder=False, dl=dl)[1]
         ensemble_results = model_results.sum(axis=-1) / len(self.models)
-        res_df = pd.DataFrame(columns=['model_identifier'] + [m.name if hasattr(m, 'name') else m.__name__ for m in self.metrics])
-        res_df.loc[0] = (['ensemble']
-                         + [metric(ensemble_results, targs).item() for metric in self.metrics])
-        for i in range(len(self.models)):
-            res_df.loc[i+1] = ([i]
-                               + [metric(model_results[:,i], targs).item()  for metric in self.metrics])
-        return res_df
+        res_ls = []
+        for c in range(dl.c):
+            res_df = pd.DataFrame(columns=['model_identifier'] + [m.name if hasattr(m, 'name') else m.__name__ for m in self.metrics])
+            res_df.loc[0] = (['ensemble']
+                             + [metric(ensemble_results[:,c], targs[:,c]).item() for metric in self.metrics])
+            for i in range(len(self.models)):
+                res_df.loc[i+1] = ([i]
+                                   + [metric(model_results[:,c,i], targs[:,c]).item()  for metric in self.metrics])
+            res_ls.append(res_df)
+        return res_ls
 
     def get_ensemble_preds(self, ds_idx=1, dl=None, with_input=True, with_decoded=False, with_loss=False, act=None,
                            inner=False, reorder=False, cbs=None, **kwargs):

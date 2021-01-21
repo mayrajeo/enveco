@@ -79,6 +79,36 @@ nb_path: "nbs/06_model.ensemble.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-846a4519dd77&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg">#export</span>
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">class</span> Ensemble<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     def __init__(self, dls, n_models:int=10, learn_func=Learner, cv:bool=False, path=None, 
+<span class="ansi-green-intense-fg ansi-bold">      4</span>                  ens_dir=&#39;ensemble&#39;, **learner_kwargs):
+<span class="ansi-green-intense-fg ansi-bold">      5</span>         &#34;&#34;&#34;Create an ensemble of `Learner`s. learner_func defines what kind of learner is used.
+
+<span class="ansi-green-fg">&lt;ipython-input-1-846a4519dd77&gt;</span> in <span class="ansi-cyan-fg">Ensemble</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg">#export</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">class</span> Ensemble<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg">     def __init__(self, dls, n_models:int=10, learn_func=Learner, cv:bool=False, path=None, 
+</span><span class="ansi-green-intense-fg ansi-bold">      4</span>                  ens_dir=&#39;ensemble&#39;, **learner_kwargs):
+<span class="ansi-green-intense-fg ansi-bold">      5</span>         &#34;&#34;&#34;Create an ensemble of `Learner`s. learner_func defines what kind of learner is used.
+
+<span class="ansi-red-fg">NameError</span>: name &#39;Learner&#39; is not defined</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
     {% endraw %}
 
@@ -100,7 +130,7 @@ nb_path: "nbs/06_model.ensemble.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Ensemble.export" class="doc_header"><code>Ensemble.export</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/ensemble.py#L86" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Ensemble.export</code>(<strong><code>folder</code></strong>=<em><code>'ensemble'</code></em>, <strong><code>pickle_protocol</code></strong>=<em><code>2</code></em>)</p>
+<h4 id="Ensemble.export" class="doc_header"><code>Ensemble.export</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/ensemble.py#L89" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Ensemble.export</code>(<strong><code>folder</code></strong>=<em><code>'ensemble'</code></em>, <strong><code>pickle_protocol</code></strong>=<em><code>2</code></em>)</p>
 </blockquote>
 <p>Export <a href="/enveco/model.ensemble.html#Ensemble"><code>Ensemble</code></a> and models to self.path/folder, with <a href="/enveco/model.ensemble.html#Ensemble"><code>Ensemble</code></a> related attributes in <code>ensemble.pkl</code>
 and each model in <code>model_i.pkl</code></p>
@@ -133,7 +163,7 @@ and each model in <code>model_i.pkl</code></p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="load_ensemble" class="doc_header"><code>load_ensemble</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/ensemble.py#L104" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>load_ensemble</code>(<strong><code>folder</code></strong>, <strong><code>cpu</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="load_ensemble" class="doc_header"><code>load_ensemble</code><a href="https://github.com/jaeeolma/enveco/tree/master/enveco/model/ensemble.py#L107" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>load_ensemble</code>(<strong><code>folder</code></strong>, <strong><code>cpu</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Load <a href="/enveco/model.ensemble.html#Ensemble"><code>Ensemble</code></a> of learners at once for inference</p>
 
