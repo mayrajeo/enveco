@@ -1,6 +1,6 @@
 # Singularity definition file for machine and deep learning analyses for remote sensing
 BootStrap: docker
-From: nvidia/cuda
+From: nvidia/cuda:11.1.1-base-ubuntu20.04
 
 # Define environment variables TODO exports
 %environment
@@ -39,15 +39,19 @@ From: nvidia/cuda
     # Install environment
     # TODO get rid of conda
     conda update conda
-    conda install -c pytorch -c fastai fastai
-    conda install jupyter notebook
-    conda install -c conda-forge ipywidgets
-    conda install -c conda-forge gdal geopandas xarray holoviews hvplot bokeh rasterio  
+    conda install -c pytorch -c fastai -c conda-forge fastai 
+    conda install -c fastai nbdev
+    conda install -c conda-forge jupyter notebook
+    conda install -c conda-forge gdal geopandas rasterio 
+    conda install -c pyviz bokeh holoviews hvplot
+    conda install -c conda-forge xarray 
     conda install -c conda-forge jupyter_contrib_nbextensions
     pip install opencv-python scikit-image albumentations nbdev pyarrow wandb tensorboard captum laspy
     pip install shap fastinference fastinference[interp]
     pip install xlrd
-    
+    pip install torchsummary
+    pip install jedi==0.17.2    
+ 
     # Test that libraries (read: gdal) work
     gdal_translate --version
     

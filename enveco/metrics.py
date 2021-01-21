@@ -5,6 +5,8 @@ __all__ = ['adjusted_R2Score', 'rrmse', 'bias', 'bias_pct']
 # Cell
 from fastai.metrics import *
 from fastai.torch_core import flatten_check
+from fastai.imports import *
+from fastai.losses import BaseLoss
 import torch
 import torch.nn.functional as F
 
