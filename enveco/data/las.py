@@ -243,7 +243,7 @@ def point_cloud_metrics(fn:str, plot_x:float=None, plot_y:float=None, mask_plot:
     With `min_h=0` works almost identically to stdmetrics.
     """
     lasfile = las_to_df(fn)
-    if mask_plot == True: lasfile = mask_plot_from_lidar(lasfile, radius=radius)#, plot_x=plot_x, plot_y=plot_y)
+    if mask_plot == True: lasfile = mask_plot_from_lidar(lasfile, radius=radius, plot_x=plot_x, plot_y=plot_y)
     n = len(lasfile)
     # area is excluded because all of our plots have the same radius
     #area = (lasfile.x.max() - lasfile.x.min()) * (lasfile.y.max() - lasfile.y.min())
@@ -251,7 +251,7 @@ def point_cloud_metrics(fn:str, plot_x:float=None, plot_y:float=None, mask_plot:
     return ([n, angle] + height_metrics(lasfile, min_h) + intensity_metrics(lasfile, min_h)
             + class_metrics(lasfile, min_h) + density_metrics(lasfile, min_h))
 
-point_cloud_metric_cols = ['n', 'angle'] + z_cols + class_cols + density_cols + i_cols
+point_cloud_metric_cols = ['n', 'angle'] + z_cols + i_cols + class_cols + density_cols
 
 # Cell
 from fastai.basics import *
